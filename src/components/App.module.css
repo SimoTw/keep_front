@@ -1,0 +1,20 @@
+.content {
+  padding-top: var(--header-height);
+  padding-left: var(--sidebar-width);
+  width: calc(100% - var(--sidebar-width));
+
+  height: calc(100% - var(--header-height));
+}
+
+.content__sidebarClose {
+  padding-top: var(--header-height);
+  padding-left: var(--sidebar-width__close);
+  width: calc(100% - var(--sidebar-width__close));
+  height: calc(100% - var(--header-height));
+}
+
+:root {
+  --header-height: 64px;
+  --sidebar-width: 280px;
+  --sidebar-width__close: 72px;
+}
