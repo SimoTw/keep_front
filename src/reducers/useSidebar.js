@@ -11,7 +11,6 @@ const makeLink = ({ text }) => ({
 });
 
 function sidebarReducer(state, action) {
-  console.log("state", state, "action", action);
   const isValidText = text => {
     const checkList = list => {
       for (let i = 0; i < list.length; i++) {
@@ -105,14 +104,23 @@ function sidebarReducer(state, action) {
 }
 
 function getInitState() {
+  const tags = [];
+  for (let i = 0; i < 20; i++) {
+    tags.push(makeLink({ text: `page${i}` }));
+  }
   return {
     // sidebar is expand or close
     open: true,
     // path is "/" or not
     // atRoot: true,
     //  links: [[link]]
-    links: [makeLink({ text: "home" }), makeLink({ text: "page1" })],
-    tags: [makeLink({ text: "page2" }), makeLink({ text: "page3" })]
+    links: [
+      makeLink({ text: "home" }),
+      makeLink({ text: "remider" }),
+      makeLink({ text: "edit tags" }),
+      makeLink({ text: "trash" })
+    ],
+    tags
   };
 }
 

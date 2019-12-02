@@ -12,17 +12,13 @@ function App() {
   const [sidebarState, sidebarHandlers] = useSidebar();
   return (
     <div className={styles.App}>
-      <Header sidebarState={sidebarState} sidebarHandlers={sidebarHandlers}>
-        header
-      </Header>
+      <Header sidebarState={sidebarState} sidebarHandlers={sidebarHandlers} />
       <Sidebar sidebarState={sidebarState} sidebarHandlers={sidebarHandlers} />
-
       <div
         className={
           sidebarState.open ? styles.content : styles.content__sidebarClose
         }
       >
-        <TagForm tags={sidebarState.tags} sidebarHandlers={sidebarHandlers} />
         <RenderPages />
       </div>
     </div>
@@ -36,6 +32,9 @@ function App() {
         </Route>
         <Route path="/page1">
           <Page1 />
+        </Route>
+        <Route path="/edit tags">
+          <TagForm tags={sidebarState.tags} sidebarHandlers={sidebarHandlers} />
         </Route>
       </Switch>
     );

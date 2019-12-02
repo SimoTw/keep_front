@@ -1,6 +1,22 @@
 .header {
+  /* position */
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
+  width: 100%;
+  z-index: 600;
+  transform: translateY(0);
+  transition: transform 0.3s ease;
+
+  /* header container style */
+  display: flex;
+  padding: 4px 4px 4px 8px;
+  box-shadow: inset 0 -1px 0 0 #5f6368;
+}
+
+.logo_container {
+  display: flex;
+  align-items: center;
+  padding-right: 32px;
 }

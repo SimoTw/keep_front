@@ -9,7 +9,7 @@ const Sidebar = ({ sidebarState, sidebarHandlers }) => {
   const { mouseEnterLink, mouseLeaveLink, clickLink } = sidebarHandlers;
   const renderList = (list, field) => {
     return (
-      <SidebarList>
+      <>
         {list.map(({ id, hover, select, text, to }) => (
           <SidebarListButton
             key={id}
@@ -24,7 +24,7 @@ const Sidebar = ({ sidebarState, sidebarHandlers }) => {
             onClick={clickLink}
           />
         ))}
-      </SidebarList>
+      </>
     );
   };
   return (
@@ -34,8 +34,14 @@ const Sidebar = ({ sidebarState, sidebarHandlers }) => {
         [styles.sidebar__open]: sidebarState.open
       })}
     >
-      {renderList(links, "links")}
-      {renderList(tags, "tags")}
+      <SidebarList>{renderList(links.slice(0, 2), "links")}</SidebarList>
+      <SidebarList>
+        {renderList(tags, "tags")}
+        {renderList(links.slice(2, 3), "links")}
+      </SidebarList>
+      <SidebarList>
+        {renderList(links.slice(3, links.length), "links")}
+      </SidebarList>
     </div>
   );
 };
