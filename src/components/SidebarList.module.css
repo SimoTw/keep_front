@@ -1,0 +1,11 @@
+.list {
+  border-bottom: 1px solid var(--sidebar-border-color);
+  list-style: none;
+  margin-top: 0;
+  margin-bottom: 0;
+  padding: 8px 0;
+}
+
+:root {
+  --sidebar-border-color: #ddd;
+}

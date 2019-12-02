@@ -1,15 +1,16 @@
 .sidebar {
   position: fixed;
   top: var(--header-height);
-  left: 0;
   height: calc(100% - var(--header-height));
+  left: 0;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.sidebar__open {
   width: var(--sidebar-width);
 }
 
 .sidebar__close {
-  position: fixed;
-  top: var(--header-height);
-  left: 0;
-  height: calc(100% - var(--header-height));
   width: var(--sidebar-width__close);
 }

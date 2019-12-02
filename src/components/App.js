@@ -1,19 +1,14 @@
-import React, { useMemo } from "react";
+import React from "react";
+import { Switch, Route } from "react-router-dom";
 import styles from "./App.module.css";
 import Header from "components/Header";
-import Sidebar from "components/Sidebar";
+import Sidebar from "containers/Sidebar";
 import useSidebar from "reducers/useSidebar";
+import Home from "pages/Home";
+import Page1 from "pages/Page1";
 
 function App() {
   const [sidebarState, sidebarHandlers] = useSidebar();
-  const makeContent = () => {
-    let list = [];
-    for (let i = 0; i < 100; i++) {
-      list.push("content");
-    }
-    return list;
-  };
-  const constentList = useMemo(makeContent, []);
   return (
     <div className={styles.App}>
       <Header sidebarState={sidebarState} sidebarHandlers={sidebarHandlers}>
@@ -26,12 +21,23 @@ function App() {
           sidebarState.open ? styles.content : styles.content__sidebarClose
         }
       >
-        {constentList.map((content, id) => (
-          <div key={id}>{content}</div>
-        ))}
+        <RenderPages />
       </div>
     </div>
   );
+
+  function RenderPages() {
+    return (
+      <Switch>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route path="/page1">
+          <Page1 />
+        </Route>
+      </Switch>
+    );
+  }
 }
 
 export default App;

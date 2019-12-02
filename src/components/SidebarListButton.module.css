@@ -1,0 +1,45 @@
+.listitem {
+  /* list outer */
+  list-style: none;
+  padding: 4px 0 4px 24px;
+
+  /* text */
+  color: #202124;
+  letter-spacing: 0.01785714em;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.25rem;
+
+  /* hover and select */
+  border-radius: 0 25px 25px 0;
+
+  cursor: pointer;
+
+  /* centerlize svg and  text*/
+  display: flex;
+  align-items: center;
+  height: 40px;
+}
+
+.listitem__hover_gray {
+  background-color: #f1f3f4;
+}
+
+.listitem__hover_orange {
+  background-color: #feefc3;
+}
+
+.listitem__selected {
+  background-color: #feefc3;
+}
+
+.text {
+  padding-left: 32px;
+  display: inline-block;
+  line-height: 40px;
+  vertical-align: top;
+  width: 176px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
