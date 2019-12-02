@@ -11,6 +11,7 @@ const makeLink = ({ text }) => ({
 });
 
 function sidebarReducer(state, action) {
+  console.log("state", state, "action", action);
   const isValidText = text => {
     const checkList = list => {
       for (let i = 0; i < list.length; i++) {
@@ -44,10 +45,10 @@ function sidebarReducer(state, action) {
     }
     // link actions
     case "add": {
-      const { id, text, field } = action;
+      const { text = "", field } = action;
       if (!isValidText(text))
         throw new Error(`Can change to exist text: ${text}`);
-      const changeList = list => [...list, makeLink(id, text)];
+      const changeList = list => [...list, makeLink({ text })];
       return changeLinkField(field, changeList);
     }
     case "delete": {
@@ -57,12 +58,14 @@ function sidebarReducer(state, action) {
     }
     case "update": {
       const { id, field, payload } = action;
+      // field type should be like : "tags/text"
+      let fields = field.split("/");
       if (field === "text" && !isValidText(payload)) return state;
       const changeList = list =>
         list.map(link =>
-          link.id === id ? { ...link, [field]: payload } : link
+          link.id === id ? { ...link, [fields[1]]: payload } : link
         );
-      return changeLinkField(field, changeList);
+      return changeLinkField(fields[0], changeList);
     }
 
     case "mouseEnter": {
@@ -119,16 +122,16 @@ function useSidebar() {
   const toggle = () => dispatch({ type: useSidebar.types.toggle });
   const setOpen = () => dispatch({ type: useSidebar.types.open });
   const setClose = () => dispatch({ type: useSidebar.types.close });
-  const addLink = ({ id, text, field }) =>
-    dispatch({ type: useSidebar.types.add, id, text, field });
+  const addLink = ({ text, field }) =>
+    dispatch({ type: useSidebar.types.add, text, field });
   const deleteLink = ({ id, field }) =>
     dispatch({ type: useSidebar.types.delete, id, field });
-  const updateLink = ({ id, text, field }) =>
+  const updateLink = ({ id, field, payload }) =>
     dispatch({
       type: useSidebar.types.update,
       id,
       field,
-      payload: text
+      payload
     });
   const mouseEnterLink = ({ id, field }) =>
     dispatch({ type: useSidebar.types.mouseEnter, id, field });

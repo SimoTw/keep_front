@@ -6,6 +6,7 @@ import Sidebar from "containers/Sidebar";
 import useSidebar from "reducers/useSidebar";
 import Home from "pages/Home";
 import Page1 from "pages/Page1";
+import TagForm from "containers/TagForm";
 
 function App() {
   const [sidebarState, sidebarHandlers] = useSidebar();
@@ -21,6 +22,7 @@ function App() {
           sidebarState.open ? styles.content : styles.content__sidebarClose
         }
       >
+        <TagForm tags={sidebarState.tags} sidebarHandlers={sidebarHandlers} />
         <RenderPages />
       </div>
     </div>
