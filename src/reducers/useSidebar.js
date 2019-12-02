@@ -9,6 +9,7 @@ function sidebarReducer(state, action) {
     hover: false,
     select: false
   });
+  console.log("action", action);
 
   switch (action.type) {
     // sidebar actions
@@ -85,7 +86,7 @@ function sidebarReducer(state, action) {
 function getInitState() {
   return {
     // sidebar is expand or close
-    open: false,
+    open: true,
     // path is "/" or not
     atRoot: true,
     //  links: [[link]]

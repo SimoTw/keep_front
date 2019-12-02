@@ -4,40 +4,47 @@ import styles from "./Sidebar.module.css";
 import SidebarList from "components/SidebarList";
 import SidebarListButton from "components/SidebarListButton";
 
-const Links = [
-  /**
-   *  id: number paimary key
-   *  svg: svg|undefined
-   *  text: string
-   *  to: string of path
-   *  */
+// const Links = [
+//   /**
+//    *  id: number paimary key
+//    *  svg: svg|undefined
+//    *  text: string
+//    *  to: string of path
+//    *  */
 
-  [
-    { to: "/", text: "Home" },
-    { to: "/page1", text: "page1" }
-  ],
-  [
-    { to: "/", text: "Home" },
-    { to: "/page1", text: "page1" }
-  ]
-];
+//   [
+//     { to: "/", text: "Home" },
+//     { to: "/page1", text: "page1" }
+//   ],
+//   [
+//     { to: "/", text: "Home" },
+//     { to: "/page1", text: "page1" }
+//   ]
+// ];
 
-function renderLinks(links) {
-  return links.map((subLinks, index) => {
-    if (!Array.isArray(subLinks)) {
-      throw new Error("only support array of list");
-    }
-    return (
-      <SidebarList key={index}>
-        {subLinks.map(({ id, ...linkData }) => (
-          <SidebarListButton key={id} {...linkData} />
-        ))}
-      </SidebarList>
-    );
-  });
-}
+// function renderLinks(links) {
+//   return links.map((subLinks, index) => {
+//     if (!Array.isArray(subLinks)) {
+//       throw new Error("only support array of list");
+//     }
+//     return (
+//       <SidebarList key={index}>
+//         {subLinks.map(({ id, ...linkData }) => (
+//           <SidebarListButton
+//             key={id}
+//             {...linkData}
+//             onMouseEnter={onMouseEnter}
+//             onMouseLeave={onMouseLeave}
+//           />
+//         ))}
+//       </SidebarList>
+//     );
+//   });
+// }
 
-const Sidebar = ({ sidebarState, children }) => {
+const Sidebar = ({ sidebarState, sidebarHandlers }) => {
+  console.log("sidebarState", sidebarState);
+  const { mouseEnterLink, mouseLeaveLink, clickLink } = sidebarHandlers;
   return (
     <div
       className={cx(styles.sidebar, {
@@ -45,7 +52,21 @@ const Sidebar = ({ sidebarState, children }) => {
         [styles.sidebar__open]: sidebarState.open
       })}
     >
-      <SidebarList>{renderLinks(Links)}</SidebarList>
+      <SidebarList>
+        {sidebarState.links.map(({ id, hover, select, text, to }) => (
+          <SidebarListButton
+            key={id}
+            id={id}
+            hover={hover}
+            select={select}
+            text={text}
+            to={to}
+            onMouseEnter={mouseEnterLink}
+            onMouseLeave={mouseLeaveLink}
+            onClick={clickLink}
+          />
+        ))}
+      </SidebarList>
     </div>
   );
 };

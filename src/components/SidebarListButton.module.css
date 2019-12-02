@@ -21,12 +21,8 @@
   height: 40px;
 }
 
-.listitem__hover_gray {
-  background-color: #f1f3f4;
-}
-
-.listitem__hover_orange {
-  background-color: #feefc3;
+.listitem__hover {
+  background-color: gray;
 }
 
 .listitem__selected {
