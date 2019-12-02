@@ -9,6 +9,7 @@ export default function SidebarButton({
   select,
   hover,
   text,
+  field,
   to = "/",
   onClick,
   onMouseEnter,
@@ -17,16 +18,15 @@ export default function SidebarButton({
   const history = useHistory();
   const handleClick = () => {
     history.push(to);
-    onClick({ id, to });
+    onClick({ id, to, field });
   };
 
   const handleMouseEnter = () => {
-    console.log("mouse enter", id);
-    onMouseEnter({ id });
+    onMouseEnter({ id, field });
   };
 
   const handleMouseLeave = () => {
-    onMouseLeave({ id });
+    onMouseLeave({ id, field });
   };
   return (
     <li
