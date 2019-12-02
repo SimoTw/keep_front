@@ -4,12 +4,15 @@ import styles from "./App.module.css";
 import Header from "components/Header";
 import Sidebar from "containers/Sidebar";
 import useSidebar from "reducers/useSidebar";
+import useCards from "reducers/useCards";
 import Home from "pages/Home";
 import Page1 from "pages/Page1";
 import TagForm from "containers/TagForm";
 
 function App() {
   const [sidebarState, sidebarHandlers] = useSidebar();
+  const [cards, cardHandlers] = useCards();
+
   return (
     <div className={styles.App}>
       <Header sidebarState={sidebarState} sidebarHandlers={sidebarHandlers} />
@@ -27,8 +30,8 @@ function App() {
   function RenderPages() {
     return (
       <Switch>
-        <Route exact path="/">
-          <Home />
+        <Route exact path="/home">
+          <Home cards={cards} cardHandlers={cardHandlers} />
         </Route>
         <Route path="/page1">
           <Page1 />
