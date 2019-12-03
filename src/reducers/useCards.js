@@ -1,20 +1,39 @@
 import { useReducer } from "react";
+import getNextId from "helpers/getNextId";
 
-let count = 0;
+/**
+ * Card
+ * id: string
+ * header: string
+ * content: string, Todo, Image, Link
+ * backgroundColor: Color
+ * tags: [TagID]
+ * time: timeStamp
+ *
+ *
+ * */
 
-const makeCard = ({ header = "", content = "" }) => ({
-  id: count++,
+const makeCard = ({
+  id,
+  header = "",
+  content = "",
+  backgroundColor = "white",
+  tags = []
+}) => ({
+  id,
   header,
-  content
+  content,
+  backgroundColor,
+  tags
 });
 
 const cardReducer = (state, action) => {
-  console.log("state", state, "action", action);
-
   switch (action.type) {
     case "add": {
-      const { header, content } = action;
-      return [...state, makeCard({ header, content })];
+      const { id, header, content } = action;
+      let nextId;
+      if (!id) nextId = getNextId(state);
+      return [...state, makeCard({ id: nextId, header, content })];
     }
     case "change": {
       const { id, field, payload } = action;

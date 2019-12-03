@@ -14,7 +14,24 @@
 }
 
 :root {
+  /* header */
   --header-height: 64px;
+
+  /* sidebar */
   --sidebar-width: 280px;
   --sidebar-width__close: 72px;
+
+  /* color */
+  --white: #e0e0e0;
+  --red: #f28b82;
+  --orange: #fbbc04;
+  --yellow: #fff475;
+  --green: #ccff90;
+  --bluegreen: #a7ffeb;
+  --blue: #cbf0f8;
+  --deepblue: #aecbfa;
+  --purple: #d7aefb;
+  --pink: #fdcfe8;
+  --brown: #e6c9a8;
+  --gray: #e8eaed;
 }
