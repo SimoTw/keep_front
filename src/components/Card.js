@@ -9,7 +9,8 @@ export default function Card({
   header,
   content,
   backgroundColor,
-  cardHandlers
+  cardHandlers,
+  pinned
 }) {
   const makeOnChange = field => e => {
     // console.log("field", field, "e.target.value", e.target.value);
@@ -28,9 +29,23 @@ export default function Card({
       <div className={styles.header}>
         Header:
         <input type="text" onChange={makeOnChange("header")} value={header} />
+        <label>
+          pinned:
+          <input
+            name="pinned"
+            type="checkbox"
+            checked={pinned}
+            onChange={() =>
+              cardHandlers.onChange({
+                id,
+                field: "pinned",
+                payload: !pinned
+              })
+            }
+          />
+        </label>
       </div>
       <div className={styles.content}>
-        {" "}
         Content:
         <input type="text" onChange={makeOnChange("content")} value={content} />
       </div>

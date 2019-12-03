@@ -18,13 +18,15 @@ const makeCard = ({
   header = "",
   content = "",
   backgroundColor = "white",
-  tags = []
+  tags = [],
+  pinned = false
 }) => ({
   id,
   header,
   content,
   backgroundColor,
-  tags
+  tags,
+  pinned
 });
 
 const cardReducer = (state, action) => {
