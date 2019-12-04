@@ -67,7 +67,7 @@ function linkReducer(state, action) {
 }
 
 function useLinks() {
-  const [state, dispatch] = useReducer(linkReducer, getInitState());
+  const [state, dispatch] = useReducer(linkReducer, []);
   const add = ({ text, to }) =>
     dispatch({ type: useLinks.types.add, text, to });
   const remove = ({ id }) => dispatch({ type: useLinks.types.remove, id });
@@ -103,17 +103,17 @@ useLinks.types = {
   unclick: "unclick"
 };
 
-function getInitState() {
-  const tags = [];
-  for (let i = 0; i < 20; i++) {
-    tags.push(makeLink({ text: `page${i}` }));
-  }
-  return [
-    makeLink({ text: "home", to: "/home" }),
-    makeLink({ text: "remider", to: "remider" }),
-    makeLink({ text: "edit tags", to: "/edit tags" }),
-    makeLink({ text: "trash", to: "/trasg" })
-  ];
-}
+// function getInitState() {
+//   const tags = [];
+//   for (let i = 0; i < 20; i++) {
+//     tags.push(makeLink({ text: `page${i}` }));
+//   }
+//   return [
+//     makeLink({ text: "home", to: "/home" }),
+//     makeLink({ text: "remider", to: "remider" }),
+//     makeLink({ text: "edit tags", to: "/edit tags" }),
+//     makeLink({ text: "trash", to: "/trasg" })
+//   ];
+// }
 
 export default useLinks;

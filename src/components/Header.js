@@ -7,7 +7,9 @@ import SearchForm from "components/SearchForm";
 
 const Header = ({ children, sidebarState, sidebarHandlers, ...props }) => {
   const location = useLocation();
-  const pathName = location.pathname.slice(1);
+  const pathList = location.pathname.split("/");
+  const pathName = pathList[pathList.length - 1];
+
   return (
     <header className={styles.header} {...props}>
       <Button onClick={sidebarHandlers.onToggle}>

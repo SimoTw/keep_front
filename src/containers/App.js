@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
 import styles from "./App.module.css";
 import Header from "components/Header";
@@ -7,11 +7,21 @@ import useSidebar from "reducers/useSidebar";
 import useCards from "reducers/useCards";
 import Home from "pages/Home";
 import Page1 from "pages/Page1";
-import TagForm from "containers/TagForm";
+import LabelForm from "containers/LabelForm";
+
+const initLinks = [
+  { text: "home", to: "/home" },
+  { text: "remider", to: "remider" },
+  { text: "edit labels", to: "/edit labels" },
+  { text: "trash", to: "/trash" }
+];
 
 function App() {
   const [sidebarState, sidebarHandlers] = useSidebar();
   const [cards, cardHandlers] = useCards();
+  useEffect(() => {
+    initLinks.map(link => sidebarHandlers.links.add(link));
+  }, []);
 
   return (
     <div className={styles.App}>
@@ -41,10 +51,10 @@ function App() {
         <Route path="/page1">
           <Page1 />
         </Route>
-        <Route path="/edit tags">
-          <TagForm
-            tags={sidebarState.labels}
-            sidebarHandlers={sidebarHandlers.labels}
+        <Route path="/edit labels">
+          <LabelForm
+            labels={sidebarState.labels}
+            handlers={sidebarHandlers.labels}
           />
         </Route>
       </Switch>
