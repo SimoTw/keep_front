@@ -32,6 +32,7 @@ function App() {
             <Home
               cards={cards}
               labels={sidebarState.labels}
+              labelHandlers={sidebarHandlers.labels}
               cardHandlers={cardHandlers}
             />
           </Route>

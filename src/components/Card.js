@@ -1,4 +1,4 @@
-import React, { useMemo, useReducer } from "react";
+import React, { useMemo, useReducer, useState, useEffect } from "react";
 import cx from "classnames";
 import styles from "./Card.module.css";
 import makeColorClassNames from "helpers/makeMapPropToColors";
@@ -11,7 +11,8 @@ export default function Card({
   backgroundColor,
   cardHandlers,
   pinned,
-  labels
+  labels,
+  labelHandlers
 }) {
   const makeOnChange = field => e => {
     cardHandlers.onChange({
@@ -62,7 +63,7 @@ export default function Card({
             </option>
           ))}
         </select>
-        <LabelForm labels={labels} />
+        <LabelForm labels={labels} labelHandlers={labelHandlers} />
         <button onClick={() => cardHandlers.onDeleteClick({ id })}>
           delete {id}
         </button>
@@ -71,13 +72,17 @@ export default function Card({
   );
 }
 
-function reducer(state, action) {
+function cardLabelReducer(state, action) {
   switch (action.type) {
     case "click": {
       const { id } = action;
       return state.map(label =>
         label.id === id ? { ...label, checked: !label.checked } : label
       );
+    }
+    case "reset": {
+      const { labels } = action;
+      return makeInitState(labels);
     }
     default:
       throw new Error(`Unhandled type ${action.type}`);
@@ -91,8 +96,12 @@ function makeInitState(labels, checked = []) {
   }));
 }
 
-function LabelForm({ labels }) {
-  const [state, dispatch] = useReducer(reducer, makeInitState(labels));
+function LabelForm({ labels, labelHandlers }) {
+  const [state, dispatch] = useReducer(cardLabelReducer, makeInitState(labels));
+  const [inp, setInp] = useState("");
+  useEffect(() => {
+    dispatch({ type: "reset", labels });
+  }, [labels]);
   const makeOnChange = id => () => {
     dispatch({ type: "click", id });
   };
@@ -113,6 +122,25 @@ function LabelForm({ labels }) {
               </label>
             </li>
           ))}
+        <li>
+          <form
+            onSubmit={e => {
+              e.preventDefault();
+              labelHandlers.add({ text: inp, to: `/label/${inp}` });
+              setInp("");
+            }}
+          >
+            <label>
+              add label
+              <input
+                type="text"
+                value={inp}
+                onChange={e => setInp(e.target.value)}
+              />
+            </label>
+            <input type="submit" value="submit" />
+          </form>
+        </li>
       </ul>
     </div>
   );

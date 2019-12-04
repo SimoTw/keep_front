@@ -2,7 +2,7 @@ import React from "react";
 import Card from "components/Card";
 import CardForm from "containers/CardForm";
 
-export default function Home({ cards, labels, cardHandlers }) {
+export default function Home({ cards, labels, cardHandlers, labelHandlers }) {
   // console.log("cards", cards);
   return (
     <div>
@@ -16,6 +16,7 @@ export default function Home({ cards, labels, cardHandlers }) {
             {...card}
             labels={labels}
             cardHandlers={cardHandlers}
+            labelHandlers={labelHandlers}
           />
         ))}
       </div>
