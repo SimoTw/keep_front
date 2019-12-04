@@ -1,7 +1,7 @@
 import { useReducer } from "react";
 
 let count = 0;
-const makeLink = ({ text, to }) => ({
+export const makeLink = ({ text, to }) => ({
   id: count++,
   text,
   to,
@@ -66,8 +66,8 @@ function linkReducer(state, action) {
   }
 }
 
-function useLinks() {
-  const [state, dispatch] = useReducer(linkReducer, []);
+function useLinks(initState = []) {
+  const [state, dispatch] = useReducer(linkReducer, initState);
   const add = ({ text, to }) =>
     dispatch({ type: useLinks.types.add, text, to });
   const remove = ({ id }) => dispatch({ type: useLinks.types.remove, id });

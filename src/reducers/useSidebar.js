@@ -1,12 +1,12 @@
 import { useState } from "react";
-import useLinks from "./useLinks";
+import useLinks, { makeLink } from "./useLinks";
 
 // sidebar object contains two child objects links and lables which are
 // produced by uselink object.
 
 function useSidebar() {
   const [labels, labelsHandlers] = useLinks();
-  const [links, linksHandlers] = useLinks();
+  const [links, linksHandlers] = useLinks(makeInitLinks());
   const [open, setOpen] = useState(true);
   const onToggle = () => setOpen(!open);
   const makeOnClick = field => ({ id }) => {
@@ -70,3 +70,14 @@ useSidebar.fields = {
 };
 
 export default useSidebar;
+
+function makeInitLinks() {
+  const initLinks = [
+    { text: "home", to: "/home" },
+    { text: "remider", to: "remider" },
+    { text: "edit labels", to: "/edit labels" },
+    { text: "trash", to: "/trash" }
+  ];
+
+  return initLinks.map(link => makeLink(link));
+}
