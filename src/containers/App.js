@@ -15,11 +15,16 @@ function App() {
 
   return (
     <div className={styles.App}>
-      <Header sidebarState={sidebarState} sidebarHandlers={sidebarHandlers} />
-      <Sidebar sidebarState={sidebarState} sidebarHandlers={sidebarHandlers} />
+      <Header sidebarHandlers={sidebarHandlers.header} />
+      <Sidebar
+        sidebarState={sidebarState}
+        sidebarHandlers={sidebarHandlers.sidebar}
+      />
       <div
         className={
-          sidebarState.open ? styles.content : styles.content__sidebarClose
+          sidebarState.sidebar.open
+            ? styles.content
+            : styles.content__sidebarClose
         }
       >
         <RenderPages />
@@ -37,7 +42,10 @@ function App() {
           <Page1 />
         </Route>
         <Route path="/edit tags">
-          <TagForm tags={sidebarState.tags} sidebarHandlers={sidebarHandlers} />
+          <TagForm
+            tags={sidebarState.labels}
+            sidebarHandlers={sidebarHandlers.labels}
+          />
         </Route>
       </Switch>
     );

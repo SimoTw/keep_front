@@ -10,7 +10,7 @@ const Header = ({ children, sidebarState, sidebarHandlers, ...props }) => {
   const pathName = location.pathname.slice(1);
   return (
     <header className={styles.header} {...props}>
-      <Button onClick={sidebarHandlers.toggle}>
+      <Button onClick={sidebarHandlers.onToggle}>
         <Menu />
       </Button>
       <div className={styles.logo_container}>{pathName}</div>

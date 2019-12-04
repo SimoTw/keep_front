@@ -5,8 +5,8 @@ import SidebarList from "components/SidebarList";
 import SidebarListButton from "components/SidebarListButton";
 
 const Sidebar = ({ sidebarState, sidebarHandlers }) => {
-  const { links, tags } = sidebarState;
-  const { mouseEnterLink, mouseLeaveLink, clickLink } = sidebarHandlers;
+  const { links, labels } = sidebarState;
+  const { makeOnClick, makeOnMouseEnter, makeOnMouseLeave } = sidebarHandlers;
   const renderList = (list, field) => {
     return (
       <>
@@ -19,9 +19,9 @@ const Sidebar = ({ sidebarState, sidebarHandlers }) => {
             select={select}
             text={text}
             to={to}
-            onMouseEnter={mouseEnterLink}
-            onMouseLeave={mouseLeaveLink}
-            onClick={clickLink}
+            onMouseEnter={makeOnMouseEnter(field)}
+            onMouseLeave={makeOnMouseLeave(field)}
+            onClick={makeOnClick(field)}
           />
         ))}
       </>
@@ -30,13 +30,13 @@ const Sidebar = ({ sidebarState, sidebarHandlers }) => {
   return (
     <div
       className={cx(styles.sidebar, {
-        [styles.sidebar__close]: !sidebarState.open,
-        [styles.sidebar__open]: sidebarState.open
+        [styles.sidebar__close]: !sidebarState.sidebar.open,
+        [styles.sidebar__open]: sidebarState.sidebar.open
       })}
     >
       <SidebarList>{renderList(links.slice(0, 2), "links")}</SidebarList>
       <SidebarList>
-        {renderList(tags, "tags")}
+        {renderList(labels, "labels")}
         {renderList(links.slice(2, 3), "links")}
       </SidebarList>
       <SidebarList>
