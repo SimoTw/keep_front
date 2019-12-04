@@ -3,17 +3,26 @@ import cx from "classnames";
 import styles from "./Card.module.css";
 import makeColorClassNames from "helpers/makeMapPropToColors";
 import colorNames from "types/colorNames";
+import useTodo from "reducers/useTodo";
 
+// const todos = [
+//   { id: 0, text: "hello", checked: false },
+//   { id: 1, text: "hello", checked: false },
+//   { id: 0, text: "hello", checked: true }
+// ];
 export default function Card({
   id,
   header,
   content,
+  todos: initTodos,
   backgroundColor,
   cardHandlers,
   pinned,
   labels,
   labelHandlers
 }) {
+  const [todoInp, setTodoInp] = useState("");
+  const [todos, todoHandlers] = useTodo(initTodos);
   const makeOnChange = field => e => {
     cardHandlers.onChange({
       id,
@@ -51,6 +60,52 @@ export default function Card({
       <div className={styles.content}>
         Content:
         <input type="text" onChange={makeOnChange("content")} value={content} />
+      </div>
+      <div className={styles.content}>
+        <form
+          onSubmit={e => {
+            e.preventDefault();
+            todoHandlers.add({ text: todoInp });
+            cardHandlers.onChange({
+              id,
+              field: "todos",
+              payload: todos
+            });
+            setTodoInp("");
+            console.log("todos", todos);
+          }}
+        >
+          <label>
+            Todo inp:
+            <input
+              type="text"
+              value={todoInp}
+              onChange={e => setTodoInp(e.target.value)}
+            />
+          </label>
+          <input type="submit" value="submit" />
+        </form>
+        Todos:
+        {todos.map(({ id, text, checked }) => (
+          <div key={id}>
+            <label>
+              <input
+                type="checkbox"
+                key={id}
+                checked={checked}
+                onChange={() => {
+                  todoHandlers.toggle({ id });
+                  cardHandlers.onChange({
+                    id,
+                    field: "todos",
+                    payload: todos
+                  });
+                }}
+              />
+              {text}
+            </label>
+          </div>
+        ))}
       </div>
       <div className={styles.footer}>
         <select

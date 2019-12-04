@@ -18,6 +18,7 @@ const makeCard = ({
   header = "",
   content = "",
   backgroundColor = "white",
+  todos = [],
   tags = [],
   pinned = false
 }) => ({
@@ -26,6 +27,7 @@ const makeCard = ({
   content,
   backgroundColor,
   tags,
+  todos,
   pinned
 });
 
