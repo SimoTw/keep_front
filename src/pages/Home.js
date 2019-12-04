@@ -2,7 +2,7 @@ import React from "react";
 import Card from "components/Card";
 import CardForm from "containers/CardForm";
 
-export default function Home({ cards, cardHandlers }) {
+export default function Home({ cards, labels, cardHandlers }) {
   // console.log("cards", cards);
   return (
     <div>
@@ -11,7 +11,12 @@ export default function Home({ cards, cardHandlers }) {
       </div>
       <div>
         {cards.map(card => (
-          <Card key={card.id} {...card} cardHandlers={cardHandlers} />
+          <Card
+            key={card.id}
+            {...card}
+            labels={labels}
+            cardHandlers={cardHandlers}
+          />
         ))}
       </div>
     </div>

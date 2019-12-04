@@ -12,7 +12,7 @@ import LabelForm from "containers/LabelForm";
 function App() {
   const [sidebarState, sidebarHandlers] = useSidebar();
   const [cards, cardHandlers] = useCards();
-
+  console.log("sidebarState", sidebarState);
   return (
     <div className={styles.App}>
       <Header sidebarHandlers={sidebarHandlers.header} />
@@ -27,29 +27,27 @@ function App() {
             : styles.content__sidebarClose
         }
       >
-        <RenderPages />
+        <Switch>
+          <Route exact path="/home">
+            <Home
+              cards={cards}
+              labels={sidebarState.labels}
+              cardHandlers={cardHandlers}
+            />
+          </Route>
+          <Route path="/page1">
+            <Page1 />
+          </Route>
+          <Route path="/edit labels">
+            <LabelForm
+              labels={sidebarState.labels}
+              handlers={sidebarHandlers.labels}
+            />
+          </Route>
+        </Switch>{" "}
       </div>
     </div>
   );
-
-  function RenderPages() {
-    return (
-      <Switch>
-        <Route exact path="/home">
-          <Home cards={cards} cardHandlers={cardHandlers} />
-        </Route>
-        <Route path="/page1">
-          <Page1 />
-        </Route>
-        <Route path="/edit labels">
-          <LabelForm
-            labels={sidebarState.labels}
-            handlers={sidebarHandlers.labels}
-          />
-        </Route>
-      </Switch>
-    );
-  }
 }
 
 export default App;

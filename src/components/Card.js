@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useReducer } from "react";
 import cx from "classnames";
 import styles from "./Card.module.css";
 import makeColorClassNames from "helpers/makeMapPropToColors";
@@ -10,10 +10,10 @@ export default function Card({
   content,
   backgroundColor,
   cardHandlers,
-  pinned
+  pinned,
+  labels
 }) {
   const makeOnChange = field => e => {
-    // console.log("field", field, "e.target.value", e.target.value);
     cardHandlers.onChange({
       id,
       field,
@@ -24,6 +24,8 @@ export default function Card({
     () => makeColorClassNames(styles, "container", backgroundColor),
     [backgroundColor]
   );
+
+  console.log("labels", labels);
   return (
     <div className={cx(styles.container, mapColorNameToState)}>
       <div className={styles.header}>
@@ -60,13 +62,58 @@ export default function Card({
             </option>
           ))}
         </select>
-        <select>
-          <option value="tag1">tag1</option>
-        </select>
+        <LabelForm labels={labels} />
         <button onClick={() => cardHandlers.onDeleteClick({ id })}>
           delete {id}
         </button>
       </div>
+    </div>
+  );
+}
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "click": {
+      const { id } = action;
+      return state.map(label =>
+        label.id === id ? { ...label, checked: !label.checked } : label
+      );
+    }
+    default:
+      throw new Error(`Unhandled type ${action.type}`);
+  }
+}
+
+function makeInitState(labels, checked = []) {
+  return labels.map(label => ({
+    ...label,
+    checked: checked.includes(label.id)
+  }));
+}
+
+function LabelForm({ labels }) {
+  const [state, dispatch] = useReducer(reducer, makeInitState(labels));
+  const makeOnChange = id => () => {
+    dispatch({ type: "click", id });
+  };
+
+  return (
+    <div>
+      <ul>
+        {state &&
+          state.map(({ id, text, checked }) => (
+            <li key={id}>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={checked}
+                  onChange={makeOnChange(id)}
+                />
+                {text}
+              </label>
+            </li>
+          ))}
+      </ul>
     </div>
   );
 }
