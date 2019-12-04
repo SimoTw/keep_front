@@ -80,6 +80,12 @@ function cardLabelReducer(state, action) {
         label.id === id ? { ...label, checked: !label.checked } : label
       );
     }
+    case "uncheck": {
+      const { id } = action;
+      return state.map(label =>
+        label.id === id ? { ...label, checked: false } : label
+      );
+    }
     case "reset": {
       const { labels } = action;
       return makeInitState(labels);
@@ -108,6 +114,17 @@ function LabelForm({ labels, labelHandlers }) {
 
   return (
     <div>
+      <ul>
+        {state &&
+          state
+            .filter(({ checked }) => checked === true)
+            .map(({ id, text }) => (
+              <button
+                key={id}
+                onClick={() => dispatch({ type: "uncheck", id })}
+              >{`${id} ${text}`}</button>
+            ))}
+      </ul>
       <ul>
         {state &&
           state.map(({ id, text, checked }) => (
