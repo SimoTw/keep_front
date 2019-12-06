@@ -84,9 +84,6 @@ function useLinks(initState = []) {
     dispatch({ type: useLinks.types.mouseLeave, id });
   const click = ({ id }) => dispatch({ type: useLinks.types.click, id });
   const unclick = () => dispatch({ type: useLinks.types.unclick });
-
-  console.log("state", state);
-
   return [
     state,
     { add, remove, update, mouseEnter, mouseLeave, click, unclick }

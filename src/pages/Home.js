@@ -3,7 +3,6 @@ import Card from "components/Card";
 import CardForm from "containers/CardForm";
 
 export default function Home({ cards, labels, cardHandlers, labelHandlers }) {
-  // console.log("cards", cards);
   return (
     <div>
       <div>

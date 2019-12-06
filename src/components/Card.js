@@ -28,7 +28,6 @@ export default function Card({
     [backgroundColor]
   );
 
-  console.log("labels", labels);
   return (
     <div className={cx(styles.container, mapColorNameToState)}>
       <div className={styles.header}>

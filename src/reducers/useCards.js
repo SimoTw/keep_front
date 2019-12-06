@@ -36,19 +36,30 @@ const cardReducer = (state, action) => {
     case "add": {
       const { id, header, content } = action;
       let nextId;
-      if (!id) nextId = getNextId(state);
-      return [...state, makeCard({ id: nextId, header, content })];
+      if (!id) nextId = getNextId(state.allIds);
+      const newCard = makeCard({ id: nextId, header, content });
+      return {
+        byId: { ...state.byId, [newCard.id]: newCard },
+        allIds: [...state.allIds, newCard.id]
+      };
     }
     case "change": {
       const { id, field, payload } = action;
-      return state.map(card =>
-        card.id === id ? { ...card, [field]: payload } : card
-      );
+      return {
+        ...state,
+        byId: { ...state.byId, [id]: { ...state.byId[id], [field]: payload } }
+      };
     }
     case "delete": {
       const { id } = action;
-      return state.filter(card => card.id !== id);
+      const nextById = { ...state.byId };
+      delete nextById[id];
+      return {
+        byId: nextById,
+        allIds: state.allIds.filter(cardId => cardId === id)
+      };
     }
+
     default:
       throw new Error(`unhandlable types: ${action.type}`);
   }
@@ -62,12 +73,15 @@ cardReducer.types = {
 
 export default function useCards() {
   // const initState = {cardForm: makeCard(), cards: []};
-  const [state, dispatch] = useReducer(cardReducer, []);
+  const [state, dispatch] = useReducer(cardReducer, { byId: {}, allIds: [] });
   const onAddClick = ({ header, content }) =>
     dispatch({ type: cardReducer.types.add, header, content });
   const onDeleteClick = ({ id }) =>
     dispatch({ type: cardReducer.types.delete, id });
   const onChange = ({ id, field, payload }) =>
     dispatch({ type: cardReducer.types.change, id, field, payload });
+
+  console.log("useCards", state);
+
   return [state, { onAddClick, onDeleteClick, onChange }];
 }

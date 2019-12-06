@@ -5,17 +5,26 @@ import Header from "components/Header";
 import Sidebar from "containers/Sidebar";
 import useSidebar from "reducers/useSidebar";
 import useCards from "reducers/useCards";
+import useSearchedCards from "reducers/useSearchedCards";
 import Home from "pages/Home";
 import Page1 from "pages/Page1";
 import LabelForm from "containers/LabelForm";
 
 function App() {
   const [sidebarState, sidebarHandlers] = useSidebar();
-  const [cards, cardHandlers] = useCards();
-  console.log("sidebarState", sidebarState);
+  const [
+    { cards, search },
+
+    { search: searchHandlers, cards: cardHandlers }
+  ] = useSearchedCards();
+  console.log("cards", cards);
   return (
     <div className={styles.App}>
-      <Header sidebarHandlers={sidebarHandlers.header} />
+      <Header
+        search={search}
+        searchHandlers={searchHandlers}
+        sidebarHandlers={sidebarHandlers.header}
+      />
       <Sidebar
         sidebarState={sidebarState}
         sidebarHandlers={sidebarHandlers.sidebar}
