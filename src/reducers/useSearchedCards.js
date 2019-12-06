@@ -1,32 +1,19 @@
 import { useReducer } from "react";
-import * as SearchApi from "js-search";
 import useCards from "./useCards";
 
 const reducer = (state, action) => {
-  // const searchCard = ({ cards, text }) => {
-  //   const buildSearchApi = () => {
-  //     const searchApi = new SearchApi.Search("text");
-  //     searchApi.addIndex("header");
-  //     searchApi.addIndex("content");
-  //     searchApi.addDocuments([...cards]);
-  //     return searchApi;
-  //   };
-  //   const searchApi = buildSearchApi();
-  //   console.log("search api", searchApi);
-
-  //   let result = searchApi.search("");
-  //   console.log(result);
-  //   return result;
-  // };
-
   function inSearchedResult({ id, byId, text }) {
     const card = byId[id];
-    const { header, content, todo } = card;
+    const { header, content, todos } = card;
     let reg = new RegExp(text);
-    const inHeader = text => Array.isArray(header.match(reg));
-    const inContent = text => Array.isArray(content.match(reg));
+    const inHeader = Array.isArray(header.match(reg));
+    const inContent = Array.isArray(content.match(reg));
+    const inTodos = todos.reduce(
+      (acc, todo) => acc || Array.isArray(todo.text.match(reg)),
+      false
+    );
     // todo is todo XD
-    return inHeader(text) || inContent(text);
+    return inHeader || inContent || inTodos;
   }
 
   switch (action.type) {
