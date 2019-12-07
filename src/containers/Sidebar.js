@@ -5,7 +5,7 @@ import SidebarList from "components/SidebarList";
 import SidebarListButton from "components/SidebarListButton";
 
 const Sidebar = ({ sidebarState, sidebarHandlers }) => {
-  const { links, labels } = sidebarState;
+  const { links, labels } = sidebarState.sidebar;
   const { makeOnClick, makeOnMouseEnter, makeOnMouseLeave } = sidebarHandlers;
   const renderList = (list, field) => {
     return (

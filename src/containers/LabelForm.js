@@ -22,7 +22,13 @@ export default function LabelForm({ labels, handlers }) {
         </form>
       </div>
       {labels.map(({ id, text }) => (
-        <Label id={id} initText={text} remove={remove} update={update} />
+        <Label
+          key={id}
+          id={id}
+          initText={text}
+          remove={remove}
+          update={update}
+        />
       ))}
     </div>
   );

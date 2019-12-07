@@ -4,19 +4,19 @@ import useLinks, { makeLink } from "./useLinks";
 // sidebar object contains two child objects links and lables which are
 // produced by uselink object.
 
-function useSidebar() {
+function useLinksAndLabels() {
   const [labels, labelsHandlers] = useLinks();
   const [links, linksHandlers] = useLinks(makeInitLinks());
   const [open, setOpen] = useState(true);
   const onToggle = () => setOpen(!open);
   const makeOnClick = field => ({ id }) => {
     switch (field) {
-      case useSidebar.fields.labels:
+      case useLinksAndLabels.fields.labels:
         labelsHandlers.click({ id });
         linksHandlers.unclick();
         break;
 
-      case useSidebar.fields.links:
+      case useLinksAndLabels.fields.links:
         labelsHandlers.unclick();
         linksHandlers.click({ id });
         break;
@@ -27,11 +27,11 @@ function useSidebar() {
   };
   const makeOnMouseEnter = field => ({ id }) => {
     switch (field) {
-      case useSidebar.fields.labels:
+      case useLinksAndLabels.fields.labels:
         labelsHandlers.mouseEnter({ id });
         break;
 
-      case useSidebar.fields.links:
+      case useLinksAndLabels.fields.links:
         linksHandlers.mouseEnter({ id });
         break;
 
@@ -41,11 +41,11 @@ function useSidebar() {
   };
   const makeOnMouseLeave = field => ({ id }) => {
     switch (field) {
-      case useSidebar.fields.labels:
+      case useLinksAndLabels.fields.labels:
         labelsHandlers.mouseLeave({ id });
         break;
 
-      case useSidebar.fields.links:
+      case useLinksAndLabels.fields.links:
         linksHandlers.mouseLeave({ id });
         break;
 
@@ -54,22 +54,27 @@ function useSidebar() {
     }
   };
   return [
-    { sidebar: { open }, labels, links },
+    { sidebar: { open, labels, links }, labels, card: { labels } },
     {
       header: { onToggle },
       sidebar: { makeOnClick, makeOnMouseEnter, makeOnMouseLeave },
       labels: labelsHandlers,
-      links: linksHandlers
+      card: {
+        add: labelsHandlers.add,
+        addCard: labelsHandlers.addCard,
+        removeCard: labelsHandlers.removeCard
+      }
+      // links: linksHandlers
     }
   ];
 }
 
-useSidebar.fields = {
+useLinksAndLabels.fields = {
   labels: "labels",
   links: "links"
 };
 
-export default useSidebar;
+export default useLinksAndLabels;
 
 function makeInitLinks() {
   const initLinks = [

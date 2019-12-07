@@ -1,0 +1,59 @@
+card
+  id: int
+  header: string
+  content: string
+  backgroundColor: color
+  labels: [label] many to many
+  todos: [todo] one to many
+  pinned: boolean
+
+todo
+    id: int
+    text: string
+    checked: boolean
+
+label
+  id: int,
+  text,
+  cards: []
+  derive state
+    to: string
+  ui state
+    hover: boolean
+    select: boolean  
+
+link
+  id: int,
+  text: string,
+  cards: [card] many to many
+  derive state
+    to: string
+  ui state
+    hover: boolean,
+    select: boolean,
+
+card to link(many to many)
+card to todos (one to many)
+
+
+component hierachy
+
+App
+    data: labels, cards, 
+    header
+        searchForm
+    sidebar
+        data: links, labels
+    Page
+        CardFrom
+        cards
+            data: searchedCards, labels
+            card
+                data: todos
+
+labels: App
+links: sidebar
+searchedCards = labels(from url), searchForm, cards : App
+todos: card
+
+

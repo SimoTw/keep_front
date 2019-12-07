@@ -1,9 +1,11 @@
-import React, { useMemo, useReducer, useState, useEffect } from "react";
+import React, { useMemo } from "react";
 import cx from "classnames";
 import styles from "./Card.module.css";
 import makeColorClassNames from "helpers/makeMapPropToColors";
 import colorNames from "types/colorNames";
 import Todos from "components/Todos";
+import LabelForm from "components/CardLabels";
+import CardPin from "components/CardPin";
 
 export default function Card({
   id,
@@ -11,9 +13,10 @@ export default function Card({
   content,
   todos,
   backgroundColor,
-  cardHandlers,
   pinned,
   labels,
+  cardHandlers,
+
   labelHandlers
 }) {
   const makeOnChange = field => e => {
@@ -30,31 +33,21 @@ export default function Card({
 
   return (
     <div className={cx(styles.container, mapColorNameToState)}>
+      {/* header */}
       <div className={styles.header}>
         Header:
         <input type="text" onChange={makeOnChange("header")} value={header} />
-        <label>
-          pinned:
-          <input
-            name="pinned"
-            type="checkbox"
-            checked={pinned}
-            onChange={() =>
-              cardHandlers.onChange({
-                id,
-                field: "pinned",
-                payload: !pinned
-              })
-            }
-          />
-        </label>
+        <CardPin id={id} pinned={pinned} cardHandlers={cardHandlers} />
       </div>
+
+      {/* body */}
       <div className={styles.content}>
         Content:
         <input type="text" onChange={makeOnChange("content")} value={content} />
       </div>
       <Todos todos={todos} cardHandlers={cardHandlers} id={id} />
 
+      {/* footer */}
       <div className={styles.footer}>
         <select
           value={backgroundColor}
@@ -66,102 +59,11 @@ export default function Card({
             </option>
           ))}
         </select>
-        <LabelForm labels={labels} labelHandlers={labelHandlers} />
+        <LabelForm cardId={id} labels={labels} labelHandlers={labelHandlers} />
         <button onClick={() => cardHandlers.onDeleteClick({ id })}>
           delete {id}
         </button>
       </div>
-    </div>
-  );
-}
-
-function cardLabelReducer(state, action) {
-  switch (action.type) {
-    case "click": {
-      const { id } = action;
-      return state.map(label =>
-        label.id === id ? { ...label, checked: !label.checked } : label
-      );
-    }
-    case "uncheck": {
-      const { id } = action;
-      return state.map(label =>
-        label.id === id ? { ...label, checked: false } : label
-      );
-    }
-    case "reset": {
-      const { labels } = action;
-      return makeInitState(labels);
-    }
-    default:
-      throw new Error(`Unhandled type ${action.type}`);
-  }
-}
-
-function makeInitState(labels, checked = []) {
-  return labels.map(label => ({
-    ...label,
-    checked: checked.includes(label.id)
-  }));
-}
-
-function LabelForm({ labels, labelHandlers }) {
-  const [state, dispatch] = useReducer(cardLabelReducer, makeInitState(labels));
-  const [inp, setInp] = useState("");
-  useEffect(() => {
-    dispatch({ type: "reset", labels });
-  }, [labels]);
-  const makeOnChange = id => () => {
-    dispatch({ type: "click", id });
-  };
-
-  return (
-    <div>
-      <ul>
-        {state &&
-          state
-            .filter(({ checked }) => checked === true)
-            .map(({ id, text }) => (
-              <button
-                key={id}
-                onClick={() => dispatch({ type: "uncheck", id })}
-              >{`${id} ${text}`}</button>
-            ))}
-      </ul>
-      <ul>
-        {state &&
-          state.map(({ id, text, checked }) => (
-            <li key={id}>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={checked}
-                  onChange={makeOnChange(id)}
-                />
-                {text}
-              </label>
-            </li>
-          ))}
-        <li>
-          <form
-            onSubmit={e => {
-              e.preventDefault();
-              labelHandlers.add({ text: inp, to: `/label/${inp}` });
-              setInp("");
-            }}
-          >
-            <label>
-              add label
-              <input
-                type="text"
-                value={inp}
-                onChange={e => setInp(e.target.value)}
-              />
-            </label>
-            <input type="submit" value="submit" />
-          </form>
-        </li>
-      </ul>
     </div>
   );
 }

@@ -7,7 +7,7 @@ import getNextId from "helpers/getNextId";
  * header: string
  * content: string, Todo, Image, Link
  * backgroundColor: Color
- * tags: [TagID]
+ * labels: [TagID]
  * time: timeStamp
  *
  *
@@ -19,14 +19,14 @@ const makeCard = ({
   content = "",
   backgroundColor = "white",
   todos = [],
-  tags = [],
+  labels = [],
   pinned = false
 }) => ({
   id,
   header,
   content,
   backgroundColor,
-  tags,
+  labels,
   todos,
   pinned
 });
@@ -80,8 +80,6 @@ export default function useCards() {
     dispatch({ type: cardReducer.types.delete, id });
   const onChange = ({ id, field, payload }) =>
     dispatch({ type: cardReducer.types.change, id, field, payload });
-
-  console.log("useCards", state);
 
   return [state, { onAddClick, onDeleteClick, onChange }];
 }

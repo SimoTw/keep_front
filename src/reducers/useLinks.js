@@ -6,7 +6,8 @@ export const makeLink = ({ text, to }) => ({
   text,
   to,
   hover: false,
-  select: false
+  select: false,
+  cards: []
 });
 
 function linkReducer(state, action) {
@@ -60,6 +61,25 @@ function linkReducer(state, action) {
     case useLinks.types.unclick: {
       return state.map(link => ({ ...link, select: false }));
     }
+
+    case "addCard": {
+      const { id, cardId } = action;
+      return state.map(link =>
+        link.id === id ? { ...link, cards: [...link.cards, cardId] } : link
+      );
+    }
+    case "removeCard": {
+      const { id, cardId } = action;
+      return state.map(link => {
+        if (link.id === id) {
+          const nextCards = [...link.cards];
+          delete nextCards[cardId];
+          return { ...link, cards: nextCards };
+        } else {
+          return link;
+        }
+      });
+    }
     default: {
       throw new Error(`Unhandled type: ${action.type}`);
     }
@@ -84,9 +104,22 @@ function useLinks(initState = []) {
     dispatch({ type: useLinks.types.mouseLeave, id });
   const click = ({ id }) => dispatch({ type: useLinks.types.click, id });
   const unclick = () => dispatch({ type: useLinks.types.unclick });
+  const addCard = ({ id, cardId }) => dispatch({ type: "addCard", id, cardId });
+  const removeCard = ({ id, cardId }) =>
+    dispatch({ type: "removeCard", id, cardId });
   return [
     state,
-    { add, remove, update, mouseEnter, mouseLeave, click, unclick }
+    {
+      add,
+      remove,
+      update,
+      mouseEnter,
+      mouseLeave,
+      click,
+      unclick,
+      addCard,
+      removeCard
+    }
   ];
 }
 
