@@ -12,7 +12,7 @@ export default function Home({ cards, labels, cardHandlers, labelHandlers }) {
         {cards.map(card => (
           <Card
             key={card.id}
-            {...card}
+            card={card}
             labels={labels}
             cardHandlers={cardHandlers}
             labelHandlers={labelHandlers}

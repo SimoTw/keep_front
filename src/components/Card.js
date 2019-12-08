@@ -7,18 +7,16 @@ import Todos from "components/Todos";
 import LabelForm from "components/CardLabels";
 import CardPin from "components/CardPin";
 
-export default function Card({
-  id,
-  header,
-  content,
-  todos,
-  backgroundColor,
-  pinned,
-  labels,
-  cardHandlers,
-
-  labelHandlers
-}) {
+export default function Card({ card, labels, cardHandlers, labelHandlers }) {
+  const {
+    id,
+    header,
+    content,
+    backgroundColor,
+    labels: cardLabels,
+    todos,
+    pinned
+  } = card;
   const makeOnChange = field => e => {
     cardHandlers.onChange({
       id,
@@ -59,7 +57,13 @@ export default function Card({
             </option>
           ))}
         </select>
-        <LabelForm cardId={id} labels={labels} labelHandlers={labelHandlers} />
+        <LabelForm
+          cardId={id}
+          labels={labels}
+          cardLabels={cardLabels}
+          cardHandlers={cardHandlers}
+          labelHandlers={labelHandlers}
+        />
         <button onClick={() => cardHandlers.onDeleteClick({ id })}>
           delete {id}
         </button>

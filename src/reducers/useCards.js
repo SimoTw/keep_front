@@ -60,6 +60,36 @@ const cardReducer = (state, action) => {
       };
     }
 
+    case "addCardLabel": {
+      const { cardId, labelId } = action;
+
+      const nextLabels = [...state.byId[cardId].labels];
+      nextLabels.push(labelId);
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [cardId]: { ...state.byId[cardId], labels: nextLabels }
+        }
+      };
+    }
+
+    case "removeCardLabel": {
+      const { cardId, labelId } = action;
+
+      const nextLabels = [...state.byId[cardId].labels];
+
+      const itemIndex = nextLabels.indexOf(labelId);
+      nextLabels.splice(itemIndex, 1);
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [cardId]: { ...state.byId[cardId], labels: nextLabels }
+        }
+      };
+    }
+
     default:
       throw new Error(`unhandlable types: ${action.type}`);
   }
@@ -80,6 +110,13 @@ export default function useCards() {
     dispatch({ type: cardReducer.types.delete, id });
   const onChange = ({ id, field, payload }) =>
     dispatch({ type: cardReducer.types.change, id, field, payload });
+  const addCardLabel = ({ cardId, labelId }) =>
+    dispatch({ type: "addCardLabel", cardId, labelId });
+  const removeCardLabel = ({ cardId, labelId }) =>
+    dispatch({ type: "removeCardLabel", cardId, labelId });
 
-  return [state, { onAddClick, onDeleteClick, onChange }];
+  return [
+    state,
+    { onAddClick, onDeleteClick, onChange, addCardLabel, removeCardLabel }
+  ];
 }

@@ -23,24 +23,43 @@ function cardLabelReducer(state, action) {
   }
 }
 
-function makeInitState(labels, checked = []) {
-  return labels.map(label => ({
+function makeInitState(labels, cardLabels) {
+  return labels.map(({ cards, ...label }) => ({
     ...label,
-    checked: checked.includes(label.id)
+    checked: cardLabels.includes(label.id)
   }));
 }
 
-export default function useCardLabel({ labels, labelHandlers, cardId }) {
-  console.log("labels", labels);
-  const [state, dispatch] = useReducer(cardLabelReducer, makeInitState(labels));
-  console.log("state", state);
+export default function useCardLabel({
+  labels,
+  labelHandlers,
+  cardId,
+  cardLabels,
+  cardHandlers
+}) {
+  const [state, dispatch] = useReducer(
+    cardLabelReducer,
+    makeInitState(labels, cardLabels)
+  );
   useEffect(() => {
-    dispatch({ type: "reset", labels });
-  }, [labels]);
-  const makeOnChange = id => () => {
-    labelHandlers.addCard({ id, cardId });
+    dispatch({ type: "reset", labels, cardLabels });
+  }, [labels, cardLabels]);
+  const makeOnChange = labelId => () => {
+    const nextCardLabels = [...cardLabels];
+    if (cardLabels.includes(labelId)) {
+      let index = nextCardLabels.findIndex(labelId);
+      if (index >= 0) nextCardLabels.splice(index);
+    } else {
+      nextCardLabels.push(labelId);
+    }
+    cardHandlers.onChange({
+      id: cardId,
+      field: "labels",
+      labels: nextCardLabels
+    });
+    // labelHandlers.addCard({ id, cardId });
     // labelHandlers.removeCard({ id, cardId });
-    dispatch({ type: "click", id });
+    // dispatch({ type: "click", id });
   };
   const makeOnUncheckClick = id => () => dispatch({ type: "uncheck", id });
   const { add } = labelHandlers;

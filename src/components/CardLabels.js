@@ -1,16 +1,29 @@
 import React, { useState } from "react";
-import useCardLabel from "reducers/useCardLabel";
 
 export default function LabelForm({
   labels: initLabels,
   labelHandlers,
-  cardId
+  cardId,
+  cardHandlers,
+  cardLabels
 }) {
-  const [labels, { add, makeOnUncheckClick, makeOnChange }] = useCardLabel({
-    labels: initLabels,
-    labelHandlers,
-    cardId
-  });
+  function makeLabels(labels, cardLabels) {
+    return labels.map(({ cards, ...label }) => ({
+      ...label,
+      checked: cardLabels.includes(label.id)
+    }));
+  }
+  const makeOnUncheckClick = (cardId => labelId => () => {
+    cardHandlers.removeCardLabel({ cardId, labelId });
+  })(cardId);
+  const makeOnChange = (cardId => labelId => () => {
+    if (cardLabels.includes(labelId)) {
+      cardHandlers.removeCardLabel({ cardId, labelId });
+    } else {
+      cardHandlers.addCardLabel({ cardId, labelId });
+    }
+  })(cardId);
+  let labels = makeLabels(initLabels, cardLabels);
   return (
     <div>
       <LabelButtonList
@@ -27,7 +40,7 @@ export default function LabelForm({
             makeOnChange={makeOnChange}
           />
         ))}
-        <AddLabelList add={add} />
+        <AddLabelList add={labelHandlers.add} />
       </ul>
     </div>
   );
