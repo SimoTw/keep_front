@@ -41,7 +41,6 @@ const reducer = (state, action) => {
     }
     case "clickLabelLink": {
       const { labelId, allIds, byId } = action;
-      console.log("allIds", allIds, "byId", byId, "labelId", labelId);
       return {
         ...state,
         searchedId: allIds.filter(cardId =>
@@ -105,7 +104,6 @@ export default function useSearchedCard() {
   // state: { cards: [list of card to display], search: [state needed for search form]}
   // handlers:
   const { isSearching, searchedId } = state;
-  console.log("searchedId", searchedId);
   return [
     {
       cards: isSearching ? _makeCards(searchedId) : _makeCards(allIds),
