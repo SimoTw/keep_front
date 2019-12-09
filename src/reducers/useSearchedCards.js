@@ -2,8 +2,16 @@ import { useReducer, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import useCards from "./useCards";
 
+const makeInitState = () => ({
+  searchedId: [],
+  searchingField: "text", // can be : "text" or "label"
+  text: "",
+  label: "",
+  isSearching: false
+});
+
 const reducer = (state, action) => {
-  function inSearchedTextResult({ id, byId, text }) {
+  function isTextInCard({ id, byId, text }) {
     const card = byId[id];
     const { header, content, todos } = card;
     let reg = new RegExp(text);
@@ -16,16 +24,9 @@ const reducer = (state, action) => {
     // todo is todo XD
     return inHeader || inContent || inTodos;
   }
-  function inSearchedLabelResult({ id, byId, label }) {
-    const card = byId[id];
-    const { labels } = card;
-    console.log("label", label, "labels", labels);
-    for (let cardLabel of labels) {
-      if (cardLabel === label) {
-        return true;
-      }
-    }
-    return false;
+  function isLabelIdInCard({ cardId, byId, labelId }) {
+    const card = byId[cardId];
+    return card.labels.findIndex(id => id === labelId) === -1 ? false : true;
   }
 
   switch (action.type) {
@@ -34,22 +35,20 @@ const reducer = (state, action) => {
       const { text } = state;
       return {
         ...state,
-        searchedId: allIds.filter(id =>
-          inSearchedTextResult({ id, byId, text })
-        ),
+        searchedId: allIds.filter(id => isTextInCard({ id, byId, text })),
         isSearching: true
       };
     }
     case "clickLabelLink": {
-      const { label, allIds, byId } = action;
+      const { labelId, allIds, byId } = action;
+      console.log("allIds", allIds, "byId", byId, "labelId", labelId);
       return {
         ...state,
-        searchedId: allIds.filter(id =>
-          inSearchedLabelResult({ id, byId, label })
+        searchedId: allIds.filter(cardId =>
+          isLabelIdInCard({ cardId, byId, labelId })
         ),
         isSearching: true,
-        searchingField: "label",
-        label
+        searchingField: "label"
       };
     }
     case "clickHome": {
@@ -59,12 +58,7 @@ const reducer = (state, action) => {
       return { ...state, label: "" };
     }
     case "reset": {
-      return {
-        // field: "",
-        text: "",
-        isSearching: false,
-        searchedId: []
-      };
+      return makeInitState();
     }
     case "change": {
       const { field, payload } = action;
@@ -80,27 +74,18 @@ const reducer = (state, action) => {
 
 export default function useSearchedCard() {
   const [{ byId, allIds }, cardHandlers] = useCards();
-  const [state, dispatch] = useReducer(reducer, {
-    searchedId: [],
-    searchingField: "text", // can be : "text" or "label"
-    text: "",
-    label: "",
-    isSearching: false
-  });
-
-  // capture label clicks by url
-
+  const [state, dispatch] = useReducer(reducer, makeInitState());
+  // change search result by capture url changes
   const location = useLocation();
   useEffect(() => {
-    const _clickLabelLink = label =>
-      dispatch({ type: "clickLabelLink", label, allIds, byId });
-    const _clickHome = () => dispatch({ type: "clickHome" });
     const locationList = location.pathname.split("/").slice(1);
     if (locationList[0] === "label") {
-      _clickLabelLink(locationList[1]);
-    }
-    if (locationList[0] === "home") {
-      _clickHome();
+      const { labelId } = location.state;
+      (labelId => dispatch({ type: "clickLabelLink", labelId, allIds, byId }))(
+        labelId
+      );
+    } else if (locationList[0] === "home") {
+      (() => dispatch({ type: "clickHome" }))();
     }
   }, [location, allIds, byId]);
 
@@ -114,34 +99,15 @@ export default function useSearchedCard() {
     }
   };
 
-  // private helpers
-  // const _getRenderIds = state => {
-  //   const { searchedId, searchingField, text, label } = state;
-  //   if ()
-  //   switch(searchingField) {
-  //     case "text": {
-
-  //     }
-  //     case "label": {
-
-  //     }
-  //     default:
-  //       throw new Error(`unhandlable searchingField ${searchingField}`);
-  //   }
-  //   return searchingField === "text" ? searchedId : searchedId;
-  // };
-
   const _makeCards = ids => ids.map(id => byId[id]);
 
-  // const renderIds = _getRenderIds(state);
   // return
   // state: { cards: [list of card to display], search: [state needed for search form]}
   // handlers:
   const { isSearching, searchedId } = state;
-  console.log("state", state);
+  console.log("searchedId", searchedId);
   return [
     {
-      // cards: allIds && makeCards(allIds),
       cards: isSearching ? _makeCards(searchedId) : _makeCards(allIds),
       search: state
     },

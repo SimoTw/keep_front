@@ -35,14 +35,20 @@ function App() {
             : styles.content__sidebarClose
         }
       >
+        <Home
+          cards={cards}
+          labels={sidebarState.labels}
+          labelHandlers={sidebarHandlers.card}
+          cardHandlers={cardHandlers}
+        />
         <Switch>
           <Route exact path="/home">
-            <Home
+            {/* <Home
               cards={cards}
               labels={sidebarState.labels}
               labelHandlers={sidebarHandlers.card}
               cardHandlers={cardHandlers}
-            />
+            /> */}
           </Route>
           <Route path="/page1">
             <Page1 />

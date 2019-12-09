@@ -17,7 +17,7 @@ export default function SidebarButton({
 }) {
   const history = useHistory();
   const handleClick = () => {
-    history.push(to);
+    history.push(to, { labelId: id });
     onClick({ id, to, field });
   };
 
