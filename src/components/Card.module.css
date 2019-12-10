@@ -3,6 +3,7 @@
   flex-direction: column;
   width: 600px;
   opacity: 1;
+  padding: 0 16px;
   /* background-color: var(--blue); */
 }
 
@@ -42,6 +43,30 @@
 }
 .container__gray {
   background-color: var(--gray);
+}
+
+.header {
+  display: flex;
+  padding-top: 12px;
+}
+
+.header_input {
+  /* font */
+  font-size: 1rem;
+  letter-spacing: 0.00625em;
+  font-weight: 500;
+  line-height: 1.5rem;
+
+  /*  remove default */
+  outline: none;
+  border: none;
+
+  flex: 1 1 auto;
+  background: transparent;
+}
+
+.textArea {
+  width: 100%;
 }
 
 .footer {

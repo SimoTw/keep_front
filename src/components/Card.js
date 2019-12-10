@@ -3,9 +3,11 @@ import cx from "classnames";
 import styles from "./Card.module.css";
 import makeColorClassNames from "helpers/makeMapPropToColors";
 import colorNames from "types/colorNames";
-import Todos from "components/Todos";
 import LabelForm from "components/CardLabels";
-import CardPin from "components/CardPin";
+import TextArea from "components/TextArea";
+
+// import CardPin from "components/CardPin";
+// import Todos from "components/Todos";
 
 export default function Card({ card, labels, cardHandlers, labelHandlers }) {
   const {
@@ -13,9 +15,9 @@ export default function Card({ card, labels, cardHandlers, labelHandlers }) {
     header,
     content,
     backgroundColor,
-    labels: cardLabels,
-    todos,
-    pinned
+    labels: cardLabels
+    // todos
+    // pinned
   } = card;
   const makeOnChange = field => e => {
     cardHandlers.onChange({
@@ -33,17 +35,24 @@ export default function Card({ card, labels, cardHandlers, labelHandlers }) {
     <div className={cx(styles.container, mapColorNameToState)}>
       {/* header */}
       <div className={styles.header}>
-        Header:
-        <input type="text" onChange={makeOnChange("header")} value={header} />
-        <CardPin id={id} pinned={pinned} cardHandlers={cardHandlers} />
+        <input
+          className={styles.header_input}
+          type="text"
+          onChange={makeOnChange("header")}
+          value={header}
+        />
+        {/* <CardPin id={id} pinned={pinned} cardHandlers={cardHandlers} /> */}
       </div>
 
       {/* body */}
       <div className={styles.content}>
-        Content:
-        <input type="text" onChange={makeOnChange("content")} value={content} />
+        <TextArea
+          className={styles.textArea}
+          onChange={makeOnChange("content")}
+          value={content}
+        />
       </div>
-      <Todos todos={todos} cardHandlers={cardHandlers} id={id} />
+      {/* <Todos todos={todos} cardHandlers={cardHandlers} id={id} /> */}
 
       {/* footer */}
       <div className={styles.footer}>

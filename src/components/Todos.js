@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import useTodo from "reducers/useTodo";
+import styles from "./Todos.module.css";
+import TextArea from "components/TextArea";
 
 export default function Todos({ todos: initTodos, cardHandlers, id }) {
   const [todos, todoHandlers] = useTodo(initTodos);
@@ -35,10 +37,10 @@ function TodoForm({ todoHandlers, updateCardTodos }) {
     setTodoInp("");
   };
   return (
-    <form onSubmit={handleSubmit}>
+    <form className={styles.todoList} onSubmit={handleSubmit}>
       <label>
         Todo inp:
-        <input
+        <TextArea
           type="text"
           value={todoInp}
           onChange={e => setTodoInp(e.target.value)}
@@ -55,11 +57,15 @@ function Todo({ id, text, checked, todoHandlers, updateCardTodos }) {
     updateCardTodos();
   };
   return (
-    <div key={id}>
-      <label>
-        <input type="checkbox" key={id} checked={checked} onChange={onChange} />
-        {text}
-      </label>
+    <div key={id} className={styles.todoList}>
+      <input
+        className={styles.todoCheckbox}
+        type="checkbox"
+        key={id}
+        checked={checked}
+        onChange={onChange}
+      />
+      <TextArea className={styles.todoTextArea} value={text} />
     </div>
   );
 }
