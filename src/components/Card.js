@@ -12,7 +12,7 @@ import { ReactComponent as Label } from "statics/svgs/label.svg";
 import { ReactComponent as Delete } from "statics/svgs/delete.svg";
 
 // import CardPin from "components/CardPin";
-// import Todos from "components/Todos";
+import Todos from "components/Todos";
 
 export default function Card({ card, labels, cardHandlers, labelHandlers }) {
   const {
@@ -20,8 +20,9 @@ export default function Card({ card, labels, cardHandlers, labelHandlers }) {
     header,
     content,
     backgroundColor,
-    labels: cardLabels
-    // todos
+    labels: cardLabels,
+    contentType,
+    todos
     // pinned
   } = card;
   const makeOnChange = field => e => {
@@ -45,6 +46,7 @@ export default function Card({ card, labels, cardHandlers, labelHandlers }) {
       <div className={styles.header}>
         <input
           className={styles.header_input}
+          placeholder="add header"
           type="text"
           onChange={makeOnChange("header")}
           value={header}
@@ -54,13 +56,16 @@ export default function Card({ card, labels, cardHandlers, labelHandlers }) {
 
       {/* body */}
       <div className={styles.content}>
-        <TextArea
-          className={styles.textArea}
-          onChange={makeOnChange("content")}
-          value={content}
-        />
+        {contentType === "text" ? (
+          <TextArea
+            className={styles.textArea}
+            onChange={makeOnChange("content")}
+            value={content}
+          />
+        ) : (
+          <Todos todos={todos} cardHandlers={cardHandlers} id={id} />
+        )}
       </div>
-      {/* <Todos todos={todos} cardHandlers={cardHandlers} id={id} /> */}
 
       {/* footer */}
       <div className={styles.footer}>

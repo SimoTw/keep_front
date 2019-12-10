@@ -1,15 +1,23 @@
 import React from "react";
 import Card from "components/Card";
-import CardForm from "containers/CardForm";
 
 export default function Home({ cards, labels, cardHandlers, labelHandlers }) {
   return (
     <div>
       <div>
-        <CardForm cardHandlers={cardHandlers} />
+        <button
+          onClick={() => cardHandlers.onAddClick({ contentType: "text" })}
+        >
+          Add content
+        </button>
+        <button
+          onClick={() => cardHandlers.onAddClick({ contentType: "todo" })}
+        >
+          Add Todo
+        </button>
       </div>
       <div>
-        {cards.map(card => (
+        {cards.reverse().map(card => (
           <Card
             key={card.id}
             id={card.id}

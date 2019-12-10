@@ -19,7 +19,7 @@ const Header = ({
 
   return (
     <header className={styles.header} {...props}>
-      <Button onClick={sidebarHandlers.onToggle}>
+      <Button onClick={sidebarHandlers.onToggle} hoverBackground={true}>
         <Menu />
       </Button>
       <div className={styles.logo_container}>{pathName}</div>

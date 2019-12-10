@@ -20,7 +20,8 @@ const makeCard = ({
   backgroundColor = "white",
   todos = [],
   labels = [],
-  pinned = false
+  pinned = false,
+  contentType = "text"
 }) => ({
   id,
   header,
@@ -28,16 +29,17 @@ const makeCard = ({
   backgroundColor,
   labels,
   todos,
-  pinned
+  pinned,
+  contentType
 });
 
 const cardReducer = (state, action) => {
   switch (action.type) {
     case "add": {
-      const { id, header, content } = action;
+      const { id, header, content, contentType } = action;
       let nextId;
       if (!id) nextId = getNextId(state.allIds);
-      const newCard = makeCard({ id: nextId, header, content });
+      const newCard = makeCard({ id: nextId, header, content, contentType });
       return {
         byId: { ...state.byId, [newCard.id]: newCard },
         allIds: [...state.allIds, newCard.id]
@@ -104,8 +106,8 @@ cardReducer.types = {
 export default function useCards() {
   // const initState = {cardForm: makeCard(), cards: []};
   const [state, dispatch] = useReducer(cardReducer, { byId: {}, allIds: [] });
-  const onAddClick = ({ header, content }) =>
-    dispatch({ type: cardReducer.types.add, header, content });
+  const onAddClick = ({ header, content, contentType }) =>
+    dispatch({ type: cardReducer.types.add, header, content, contentType });
   const onDeleteClick = ({ id }) =>
     dispatch({ type: cardReducer.types.delete, id });
   const onChange = ({ id, field, payload }) =>

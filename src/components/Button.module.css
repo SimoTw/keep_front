@@ -6,8 +6,11 @@
   padding: 12px;
 }
 
-.Button:hover {
-  background-color: rgba(60, 64, 67, 0.08);
+.ButtonHover {
   cursor: pointer;
   outline: none;
+}
+
+.ButtonHoverBackground {
+  background-color: rgba(60, 64, 67, 0.08);
 }

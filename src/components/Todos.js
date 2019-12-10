@@ -2,6 +2,11 @@ import React, { useState } from "react";
 import useTodo from "reducers/useTodo";
 import styles from "./Todos.module.css";
 import TextArea from "components/TextArea";
+import Button from "components/Button";
+import { ReactComponent as CheckedCheckBox } from "statics/svgs/check_box_outline_blank.svg";
+import { ReactComponent as CheckBox } from "statics/svgs/check_box.svg";
+import { ReactComponent as Close } from "statics/svgs/close.svg";
+import Input from "components/Input";
 
 export default function Todos({ todos: initTodos, cardHandlers, id }) {
   const [todos, todoHandlers] = useTodo(initTodos);
@@ -15,7 +20,6 @@ export default function Todos({ todos: initTodos, cardHandlers, id }) {
 
   return (
     <>
-      <TodoForm todoHandlers={todoHandlers} updateCardTodos={updateCardTodos} />
       {todos.map(todo => (
         <Todo
           key={todo.id}
@@ -24,6 +28,7 @@ export default function Todos({ todos: initTodos, cardHandlers, id }) {
           updateCardTodos={updateCardTodos}
         />
       ))}
+      <TodoForm todoHandlers={todoHandlers} updateCardTodos={updateCardTodos} />
     </>
   );
 }
@@ -38,15 +43,23 @@ function TodoForm({ todoHandlers, updateCardTodos }) {
   };
   return (
     <form className={styles.todoList} onSubmit={handleSubmit}>
-      <label>
-        Todo inp:
-        <TextArea
+      {todoInp === "" ? (
+        <Input
+          className={styles.input}
           type="text"
+          placeholder="add todo"
           value={todoInp}
           onChange={e => setTodoInp(e.target.value)}
         />
-      </label>
-      <input type="submit" value="submit" />
+      ) : (
+        <Todo
+          className={styles.input}
+          type="text"
+          placeholder="add todo"
+          value={todoInp}
+          onChange={e => setTodoInp(e.target.value)}
+        />
+      )}
     </form>
   );
 }
@@ -58,14 +71,19 @@ function Todo({ id, text, checked, todoHandlers, updateCardTodos }) {
   };
   return (
     <div key={id} className={styles.todoList}>
-      <input
+      <Button
         className={styles.todoCheckbox}
         type="checkbox"
         key={id}
         checked={checked}
-        onChange={onChange}
-      />
+        onClick={onChange}
+      >
+        {checked ? <CheckedCheckBox /> : <CheckBox />}
+      </Button>
       <TextArea className={styles.todoTextArea} value={text} />
+      <Button key={id} onClick={() => todoHandlers.remove({ id })}>
+        <Close />
+      </Button>{" "}
     </div>
   );
 }
