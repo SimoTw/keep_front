@@ -4,6 +4,7 @@ import styles from "./Button.module.css";
 
 export default function Button(props) {
   const {
+    size = "l",
     children,
     className,
     onClick,
@@ -16,6 +17,9 @@ export default function Button(props) {
     <div
       role="button"
       className={cx(className, styles.Button, {
+        [styles.size_xl]: size === "xl",
+        [styles.size_l]: size === "l",
+
         [styles.ButtonHover]: hover,
         [styles.ButtonHoverBackground]: hover && hoverBackground
       })}

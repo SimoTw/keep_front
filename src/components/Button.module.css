@@ -3,7 +3,13 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%;
+}
+
+.size_xl {
   padding: 12px;
+}
+.size_l {
+  padding: 8px;
 }
 
 .ButtonHover {
