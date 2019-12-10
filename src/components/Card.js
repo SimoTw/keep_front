@@ -35,6 +35,9 @@ export default function Card({ card, labels, cardHandlers, labelHandlers }) {
     () => makeColorClassNames(styles, "container", backgroundColor),
     [backgroundColor]
   );
+  const onDeleteClick = () => {
+    cardHandlers.onDeleteClick({ id });
+  };
 
   return (
     <div className={cx(styles.container, mapColorNameToState)}>
@@ -83,7 +86,7 @@ export default function Card({ card, labels, cardHandlers, labelHandlers }) {
             labelHandlers={labelHandlers}
           />
         </ButtonPopover>
-        <Button onClick={() => cardHandlers.onDeleteClick({ id })}>
+        <Button onClick={onDeleteClick}>
           <Delete />
         </Button>
       </div>

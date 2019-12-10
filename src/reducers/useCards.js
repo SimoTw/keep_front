@@ -56,7 +56,7 @@ const cardReducer = (state, action) => {
       delete nextById[id];
       return {
         byId: nextById,
-        allIds: state.allIds.filter(cardId => cardId === id)
+        allIds: state.allIds.filter(cardId => cardId !== id)
       };
     }
 
