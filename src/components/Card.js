@@ -5,6 +5,11 @@ import makeColorClassNames from "helpers/makeMapPropToColors";
 import colorNames from "types/colorNames";
 import LabelForm from "components/CardLabels";
 import TextArea from "components/TextArea";
+import Button from "components/Button";
+import ButtonPopover from "components/ButtonPopover";
+import { ReactComponent as ColorLen } from "statics/svgs/color_lens.svg";
+import { ReactComponent as Label } from "statics/svgs/label.svg";
+import { ReactComponent as Delete } from "statics/svgs/delete.svg";
 
 // import CardPin from "components/CardPin";
 // import Todos from "components/Todos";
@@ -56,26 +61,31 @@ export default function Card({ card, labels, cardHandlers, labelHandlers }) {
 
       {/* footer */}
       <div className={styles.footer}>
-        <select
-          value={backgroundColor}
-          onChange={makeOnChange("backgroundColor")}
-        >
-          {colorNames.map(color => (
-            <option key={color} value={color}>
-              {color}
-            </option>
-          ))}
-        </select>
-        <LabelForm
-          cardId={id}
-          labels={labels}
-          cardLabels={cardLabels}
-          cardHandlers={cardHandlers}
-          labelHandlers={labelHandlers}
-        />
-        <button onClick={() => cardHandlers.onDeleteClick({ id })}>
-          delete {id}
-        </button>
+        <ButtonPopover svg={<ColorLen />}>
+          <select
+            value={backgroundColor}
+            onChange={makeOnChange("backgroundColor")}
+          >
+            {colorNames.map(color => (
+              <option key={color} value={color}>
+                {color}
+              </option>
+            ))}
+          </select>
+        </ButtonPopover>
+
+        <ButtonPopover svg={<Label />}>
+          <LabelForm
+            cardId={id}
+            labels={labels}
+            cardLabels={cardLabels}
+            cardHandlers={cardHandlers}
+            labelHandlers={labelHandlers}
+          />
+        </ButtonPopover>
+        <Button onClick={() => cardHandlers.onDeleteClick({ id })}>
+          <Delete />
+        </Button>
       </div>
     </div>
   );
