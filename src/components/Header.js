@@ -7,10 +7,9 @@ import SearchForm from "components/SearchForm";
 
 const Header = ({
   children,
-  sidebarState,
-  sidebarHandlers,
   search,
   searchHandlers,
+  toggleSidebar,
   ...props
 }) => {
   const location = useLocation();
@@ -19,11 +18,7 @@ const Header = ({
 
   return (
     <header className={styles.header} {...props}>
-      <Button
-        onClick={sidebarHandlers.onToggle}
-        hoverBackground={true}
-        size="xl"
-      >
+      <Button onClick={toggleSidebar} hoverBackground={true} size="xl">
         <Menu />
       </Button>
       <div className={styles.logo_container}>{pathName}</div>

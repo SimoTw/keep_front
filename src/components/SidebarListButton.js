@@ -8,14 +8,13 @@ export default function SidebarButton({
   svg,
   select,
   text,
-  field,
   to = "/",
-  onClick
+  onClick = () => {}
 }) {
   const history = useHistory();
   const handleClick = () => {
     history.push(to, { labelId: id });
-    onClick({ id, to, field });
+    onClick();
   };
 
   return (

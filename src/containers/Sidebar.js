@@ -7,11 +7,9 @@ import Modal from "@material-ui/core/Modal";
 import LabelForm from "containers/LabelForm";
 import { useLocation } from "react-router-dom";
 
-const Sidebar = ({ sidebarState, sidebarHandlers }) => {
+const Sidebar = ({ labels, labelHandlers, isSidebarOpen }) => {
   const [open, setOpen] = React.useState(false);
   const location = useLocation();
-  const { labels } = sidebarState.sidebar;
-  const { labelsHandlers } = sidebarHandlers;
 
   const Links = [
     { id: 0, text: "home", to: "/home" },
@@ -45,18 +43,16 @@ const Sidebar = ({ sidebarState, sidebarHandlers }) => {
   return (
     <div
       className={cx(styles.sidebar, {
-        [styles.sidebar__close]: !sidebarState.sidebar.open,
-        [styles.sidebar__open]: sidebarState.sidebar.open
+        [styles.sidebar__close]: !isSidebarOpen,
+        [styles.sidebar__open]: isSidebarOpen
       })}
     >
-      <SidebarList>{renderList(Links.slice(0, 2), "links")}</SidebarList>
+      <SidebarList>{renderList(Links.slice(0, 2))}</SidebarList>
       <SidebarList>
-        {renderList(labels, "labels")}
-        {renderList(Links.slice(2, 3), "links")}
+        {renderList(labels)}
+        {renderList(Links.slice(2, 3))}
       </SidebarList>
-      <SidebarList>
-        {renderList(Links.slice(3, Links.length), "links")}
-      </SidebarList>
+      <SidebarList>{renderList(Links.slice(3, Links.length))}</SidebarList>
       <Modal open={open} onClose={() => setOpen(false)}>
         <div
           style={{
@@ -72,7 +68,7 @@ const Sidebar = ({ sidebarState, sidebarHandlers }) => {
             }
           }}
         >
-          <LabelForm labels={sidebarState.labels} handlers={labelsHandlers} />
+          <LabelForm labels={labels} handlers={labelHandlers} />
         </div>
       </Modal>
     </div>
