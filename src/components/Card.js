@@ -1,8 +1,7 @@
 import React, { useMemo } from "react";
 import cx from "classnames";
 import styles from "./Card.module.css";
-import makeColorClassNames from "helpers/makeMapPropToColors";
-import colorNames from "types/colorNames";
+import ColorPicker from "components/ColorPicker";
 import LabelForm from "components/CardLabels";
 import TextArea from "components/TextArea";
 import Button from "components/Button";
@@ -32,16 +31,14 @@ export default function Card({ card, labels, cardHandlers, labelHandlers }) {
       payload: e.target.value
     });
   };
-  const mapColorNameToState = useMemo(
-    () => makeColorClassNames(styles, "container", backgroundColor),
-    [backgroundColor]
-  );
   const onDeleteClick = () => {
     cardHandlers.onDeleteClick({ id });
   };
 
   return (
-    <div className={cx(styles.container, mapColorNameToState)}>
+    <div
+      className={cx(styles.container, styles[`container__${backgroundColor}`])}
+    >
       {/* header */}
       <div className={styles.header}>
         <input
@@ -70,7 +67,13 @@ export default function Card({ card, labels, cardHandlers, labelHandlers }) {
       {/* footer */}
       <div className={styles.footer}>
         <ButtonPopover svg={<ColorLen />}>
-          <select
+          <ColorPicker
+            backgroundColor={backgroundColor}
+            cardId={id}
+            cardHandlers={cardHandlers}
+            onChange={makeOnChange("backgroundColor")}
+          />
+          {/* <select
             value={backgroundColor}
             onChange={makeOnChange("backgroundColor")}
           >
@@ -79,7 +82,7 @@ export default function Card({ card, labels, cardHandlers, labelHandlers }) {
                 {color}
               </option>
             ))}
-          </select>
+          </select> */}
         </ButtonPopover>
 
         <ButtonPopover svg={<Label />}>

@@ -5,44 +5,47 @@
   opacity: 1;
   padding: 0 16px;
   /* background-color: var(--blue); */
+  margin: 16px;
 }
 
 /* .container__hover {
 } */
 
 .container__white {
-  background-color: var(--white);
+  background: var(--white);
 }
 .container__red {
-  background-color: var(--red);
+  background: var(--red);
+}
+.container__orange {
+  background: var(--orange);
 }
 .container__yellow {
-  background-color: var(--yellow);
+  background: var(--yellow);
 }
 .container__green {
-  background-color: var(--green);
+  background: var(--green);
 }
 .container__bluegreen {
-  background-color: var(--bluegreen);
+  background: var(--bluegreen);
 }
 .container__blue {
-  background-color: var(--blue);
+  background: var(--blue);
 }
 .container__deepblue {
-  background-color: var(--deepblue);
+  background: var(--deepblue);
 }
 .container__purple {
-  opacity: 0;
-  background-color: var(--purple);
+  background: var(--purple);
 }
 .container__pink {
-  background-color: var(--pink);
+  background: var(--pink);
 }
 .container__brown {
-  background-color: var(--brown);
+  background: var(--brown);
 }
 .container__gray {
-  background-color: var(--gray);
+  background: var(--gray);
 }
 
 .header {

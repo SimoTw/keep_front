@@ -1,0 +1,43 @@
+.container {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.white {
+  fill: var(--white);
+}
+.red {
+  fill: var(--red);
+}
+.orange {
+  fill: var(--orange);
+}
+.yellow {
+  fill: var(--yellow);
+}
+.green {
+  fill: var(--green);
+}
+.bluegreen {
+  fill: var(--bluegreen);
+}
+.blue {
+  fill: var(--blue);
+}
+.deepblue {
+  fill: var(--deepblue);
+}
+.purple {
+  fill: var(--purple);
+}
+.pink {
+  fill: var(--pink);
+}
+.brown {
+  fill: var(--brown);
+}
+.gray {
+  fill: var(--gray);
+}
