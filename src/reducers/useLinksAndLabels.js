@@ -25,46 +25,21 @@ function useLinksAndLabels() {
         throw new Error(`Unhandlable field: ${field}`);
     }
   };
-  const makeOnMouseEnter = field => ({ id }) => {
-    switch (field) {
-      case useLinksAndLabels.fields.labels:
-        labelsHandlers.mouseEnter({ id });
-        break;
 
-      case useLinksAndLabels.fields.links:
-        linksHandlers.mouseEnter({ id });
-        break;
-
-      default:
-        throw new Error(`Unhandlable field: ${field}`);
-    }
-  };
-  const makeOnMouseLeave = field => ({ id }) => {
-    switch (field) {
-      case useLinksAndLabels.fields.labels:
-        labelsHandlers.mouseLeave({ id });
-        break;
-
-      case useLinksAndLabels.fields.links:
-        linksHandlers.mouseLeave({ id });
-        break;
-
-      default:
-        throw new Error(`Unhandlable field: ${field}`);
-    }
-  };
   return [
     { sidebar: { open, labels, links }, labels, card: { labels } },
     {
       header: { onToggle },
-      sidebar: { makeOnClick, makeOnMouseEnter, makeOnMouseLeave },
+      sidebar: {
+        makeOnClick,
+        labelsHandlers
+      },
       labels: labelsHandlers,
       card: {
         add: labelsHandlers.add,
         addCard: labelsHandlers.addCard,
         removeCard: labelsHandlers.removeCard
       }
-      // links: linksHandlers
     }
   ];
 }

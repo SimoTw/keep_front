@@ -21,8 +21,8 @@
   height: 40px;
 }
 
-.listitem__hover {
-  background-color: gray;
+.listitem__hoverable:hover {
+  background-color: rgba(95, 99, 104, 0.039);
 }
 
 .listitem__selected {

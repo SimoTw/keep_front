@@ -1,26 +1,14 @@
 import React, { useState } from "react";
+import { AddLabelList, LabelList } from "components/CardLabels";
+import styles from "./LabelForm.module.css";
+import { ReactComponent as LabelIcon } from "statics/svgs/label.svg";
+import { ReactComponent as Close } from "statics/svgs/close.svg";
 
 export default function LabelForm({ labels, handlers }) {
-  const [text, setText] = useState("");
   const { add, remove, update } = handlers;
   return (
-    <div>
-      <div>
-        <form
-          onSubmit={e => {
-            e.preventDefault();
-            add({ text, to: `/label/${text}` });
-            setText("");
-          }}
-        >
-          <input
-            type="text"
-            value={text}
-            onChange={e => setText(e.target.value)}
-          />
-          <input type="submit" value="add" />
-        </form>
-      </div>
+    <LabelList>
+      <AddLabelList add={add} />
       {labels.map(({ id, text }) => (
         <Label
           key={id}
@@ -30,28 +18,32 @@ export default function LabelForm({ labels, handlers }) {
           update={update}
         />
       ))}
-    </div>
+    </LabelList>
   );
 }
 
 function Label({ id, initText, remove, update }) {
   const [text, setText] = useState(initText);
   return (
-    <div key={id}>
-      <button onClick={() => remove({ id })}>delete</button>
-      <form
-        onSubmit={e => {
-          e.preventDefault();
-          update({
-            id: id,
-            field: "text",
-            payload: text
-          });
-        }}
-      >
-        <input value={text} onChange={e => setText(e.target.value)} />
-        <input type="submit" value="submit" />
-      </form>
-    </div>
+    <form
+      className={styles.listItem}
+      onSubmit={e => {
+        e.preventDefault();
+        update({
+          id: id,
+          field: "text",
+          payload: text
+        });
+      }}
+    >
+      <LabelIcon />
+
+      <input
+        className={styles.input}
+        value={text}
+        onChange={e => setText(e.target.value)}
+      />
+      <Close onClick={() => remove({ id })} />
+    </form>
   );
 }

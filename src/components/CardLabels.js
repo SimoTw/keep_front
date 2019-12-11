@@ -1,5 +1,8 @@
 import React, { useState } from "react";
+import cx from "classnames";
 import { ReactComponent as Add } from "statics/svgs/add.svg";
+import { ReactComponent as Close } from "statics/svgs/close.svg";
+
 import CheckBox from "components/CheckBox";
 import styles from "./CardLabels.module.css";
 
@@ -28,7 +31,7 @@ export default function LabelForm({
   })(cardId);
   let labels = makeLabels(initLabels, cardLabels);
   return (
-    <div className={styles.list}>
+    <LabelList>
       <AddLabelList add={labelHandlers.add} />
 
       {labels.map(({ id, text, checked }) => (
@@ -40,11 +43,19 @@ export default function LabelForm({
           makeOnChange={makeOnChange}
         />
       ))}
+    </LabelList>
+  );
+}
+
+export function LabelList({ children, className, ...props }) {
+  return (
+    <div className={cx(styles.list, className)} {...props}>
+      {children}
     </div>
   );
 }
 
-function AddLabelList({ add }) {
+export function AddLabelList({ add }) {
   const [inp, setInp] = useState("");
   const onSubmit = e => {
     e.preventDefault();
@@ -52,8 +63,10 @@ function AddLabelList({ add }) {
     setInp("");
   };
   const onChange = e => setInp(e.target.value);
+  const onClear = () => setInp("");
   return (
     <form className={styles.listItem} onSubmit={onSubmit}>
+      <Add style={{ width: "18px", height: "18px" }} onClick={onSubmit} />
       <input
         className={styles.input}
         placeholder="add label"
@@ -61,7 +74,7 @@ function AddLabelList({ add }) {
         value={inp}
         onChange={onChange}
       />
-      <Add style={{ width: "18px", height: "18px" }} />
+      <Close onClick={onClear} />
     </form>
   );
 }
@@ -91,7 +104,11 @@ function LabelButton({ id, text, makeOnUncheckClick }) {
 
 export function LabelCheckBoxList({ id, text, checked, makeOnChange }) {
   return (
-    <li key={id} className={styles.listItem} onClick={makeOnChange(id)}>
+    <li
+      key={id}
+      className={cx(styles.listItem, styles.listButton)}
+      onClick={makeOnChange(id)}
+    >
       <CheckBox checked={checked} onChange={makeOnChange(id)} size="xs" />
       <div className={styles.text}>{text}</div>
     </li>

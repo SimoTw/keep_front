@@ -1,27 +1,15 @@
-import { useReducer } from "react";
+import { useReducer, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 let count = 0;
 export const makeLink = ({ text, to }) => ({
   id: count++,
   text,
   to,
-  hover: false,
-  select: false,
-  cards: []
+  select: false
 });
 
 function linkReducer(state, action) {
-  //   const isValidText = text => {
-  //     const checkList = list => {
-  //       for (let i = 0; i < list.length; i++) {
-  //         let obj = list[i];
-  //         if (obj.text === text) return false;
-  //       }
-  //       return true;
-  //     };
-  //     return checkList(state);
-  //   };
-
   switch (action.type) {
     // link actions
     case useLinks.types.add: {
@@ -40,18 +28,6 @@ function linkReducer(state, action) {
       );
     }
 
-    case useLinks.types.mouseEnter: {
-      const { id } = action;
-      return state.map(link =>
-        link.id === id ? { ...link, hover: true } : link
-      );
-    }
-    case useLinks.types.mouseLeave: {
-      const { id } = action;
-      return state.map(link =>
-        link.id === id ? { ...link, hover: false } : link
-      );
-    }
     case useLinks.types.click: {
       const { id } = action;
       return state.map(link =>
@@ -62,24 +38,6 @@ function linkReducer(state, action) {
       return state.map(link => ({ ...link, select: false }));
     }
 
-    case "addCard": {
-      const { id, cardId } = action;
-      return state.map(link =>
-        link.id === id ? { ...link, cards: [...link.cards, cardId] } : link
-      );
-    }
-    case "removeCard": {
-      const { id, cardId } = action;
-      return state.map(link => {
-        if (link.id === id) {
-          const nextCards = [...link.cards];
-          delete nextCards[cardId];
-          return { ...link, cards: nextCards };
-        } else {
-          return link;
-        }
-      });
-    }
     default: {
       throw new Error(`Unhandled type: ${action.type}`);
     }
@@ -88,6 +46,10 @@ function linkReducer(state, action) {
 
 function useLinks(initState = []) {
   const [state, dispatch] = useReducer(linkReducer, initState);
+  const location = useLocation();
+  // compute selected
+  useEffect(() => {}, [location]);
+
   const add = ({ text, to }) =>
     dispatch({ type: useLinks.types.add, text, to });
   const remove = ({ id }) => dispatch({ type: useLinks.types.remove, id });
@@ -98,52 +60,17 @@ function useLinks(initState = []) {
       field,
       payload
     });
-  const mouseEnter = ({ id }) =>
-    dispatch({ type: useLinks.types.mouseEnter, id });
-  const mouseLeave = ({ id }) =>
-    dispatch({ type: useLinks.types.mouseLeave, id });
   const click = ({ id }) => dispatch({ type: useLinks.types.click, id });
   const unclick = () => dispatch({ type: useLinks.types.unclick });
-  const addCard = ({ id, cardId }) => dispatch({ type: "addCard", id, cardId });
-  const removeCard = ({ id, cardId }) =>
-    dispatch({ type: "removeCard", id, cardId });
-  return [
-    state,
-    {
-      add,
-      remove,
-      update,
-      mouseEnter,
-      mouseLeave,
-      click,
-      unclick,
-      addCard,
-      removeCard
-    }
-  ];
+  return [state, { add, remove, update, click, unclick }];
 }
 
 useLinks.types = {
   add: "add",
   remove: "remove",
   update: "update",
-  mouseEnter: "mouseEnter",
-  mouseLeave: "mouseLeave",
   click: "click",
   unclick: "unclick"
 };
-
-// function getInitState() {
-//   const tags = [];
-//   for (let i = 0; i < 20; i++) {
-//     tags.push(makeLink({ text: `page${i}` }));
-//   }
-//   return [
-//     makeLink({ text: "home", to: "/home" }),
-//     makeLink({ text: "remider", to: "remider" }),
-//     makeLink({ text: "edit tags", to: "/edit tags" }),
-//     makeLink({ text: "trash", to: "/trasg" })
-//   ];
-// }
 
 export default useLinks;

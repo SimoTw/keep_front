@@ -7,13 +7,10 @@ export default function SidebarButton({
   id = "-1",
   svg,
   select,
-  hover,
   text,
   field,
   to = "/",
-  onClick,
-  onMouseEnter,
-  onMouseLeave
+  onClick
 }) {
   const history = useHistory();
   const handleClick = () => {
@@ -21,22 +18,13 @@ export default function SidebarButton({
     onClick({ id, to, field });
   };
 
-  const handleMouseEnter = () => {
-    onMouseEnter({ id, field });
-  };
-
-  const handleMouseLeave = () => {
-    onMouseLeave({ id, field });
-  };
   return (
     <li
       className={cx(styles.listitem, {
-        [styles.listitem__hover]: hover,
-        [styles.listitem__selected]: select
+        [styles.listitem__selected]: select,
+        [styles.listitem__hoverable]: !select
       })}
       onClick={handleClick}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
     >
       {svg && <svg />} <span className={styles.text}>{text}</span>
     </li>

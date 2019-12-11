@@ -24,6 +24,10 @@
   padding: 5px 10px 3px;
 }
 
+.listButton:hover {
+  background: rgba(95, 99, 104, 0.039);
+}
+
 .input {
   border: none;
   background: transparent;

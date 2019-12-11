@@ -3,25 +3,40 @@ import cx from "classnames";
 import styles from "./Sidebar.module.css";
 import SidebarList from "components/SidebarList";
 import SidebarListButton from "components/SidebarListButton";
+import Modal from "@material-ui/core/Modal";
+import LabelForm from "containers/LabelForm";
+import { useLocation } from "react-router-dom";
 
 const Sidebar = ({ sidebarState, sidebarHandlers }) => {
-  const { links, labels } = sidebarState.sidebar;
-  const { makeOnClick, makeOnMouseEnter, makeOnMouseLeave } = sidebarHandlers;
+  const [open, setOpen] = React.useState(false);
+  const location = useLocation();
+  const { labels } = sidebarState.sidebar;
+  const { labelsHandlers } = sidebarHandlers;
+
+  const Links = [
+    { id: 0, text: "home", to: "/home" },
+    { id: 1, text: "remider", to: "/remider" },
+    {
+      id: 2,
+      text: "edit labels",
+      to: "/edit labels",
+      onClick: () => {
+        setOpen(true);
+      }
+    },
+    { id: 3, text: "trash", to: "/trash" }
+  ];
   const renderList = (list, field) => {
     return (
       <>
-        {list.map(({ id, hover, select, text, to }) => (
+        {list.map(({ id, text, to, onClick }) => (
           <SidebarListButton
             key={id}
             id={id}
-            field={field}
-            hover={hover}
-            select={select}
+            select={to === location.pathname}
             text={text}
             to={to}
-            onMouseEnter={makeOnMouseEnter(field)}
-            onMouseLeave={makeOnMouseLeave(field)}
-            onClick={makeOnClick(field)}
+            onClick={onClick}
           />
         ))}
       </>
@@ -34,14 +49,32 @@ const Sidebar = ({ sidebarState, sidebarHandlers }) => {
         [styles.sidebar__open]: sidebarState.sidebar.open
       })}
     >
-      <SidebarList>{renderList(links.slice(0, 2), "links")}</SidebarList>
+      <SidebarList>{renderList(Links.slice(0, 2), "links")}</SidebarList>
       <SidebarList>
         {renderList(labels, "labels")}
-        {renderList(links.slice(2, 3), "links")}
+        {renderList(Links.slice(2, 3), "links")}
       </SidebarList>
       <SidebarList>
-        {renderList(links.slice(3, links.length), "links")}
+        {renderList(Links.slice(3, Links.length), "links")}
       </SidebarList>
+      <Modal open={open} onClose={() => setOpen(false)}>
+        <div
+          style={{
+            display: "flex",
+            width: "100%",
+            height: "100%",
+            alignItems: "center",
+            justifyContent: "center"
+          }}
+          onClick={e => {
+            if (e.target === e.currentTarget) {
+              setOpen(false);
+            }
+          }}
+        >
+          <LabelForm labels={sidebarState.labels} handlers={labelsHandlers} />
+        </div>
+      </Modal>
     </div>
   );
 };
