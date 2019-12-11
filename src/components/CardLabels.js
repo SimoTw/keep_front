@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { ReactComponent as Add } from "statics/svgs/add.svg";
+import CheckBox from "components/CheckBox";
+import styles from "./CardLabels.module.css";
 
 export default function LabelForm({
   labels: initLabels,
@@ -13,9 +16,9 @@ export default function LabelForm({
       checked: cardLabels.includes(label.id)
     }));
   }
-  const makeOnUncheckClick = (cardId => labelId => () => {
-    cardHandlers.removeCardLabel({ cardId, labelId });
-  })(cardId);
+  // const makeOnUncheckClick = (cardId => labelId => () => {
+  //   cardHandlers.removeCardLabel({ cardId, labelId });
+  // })(cardId);
   const makeOnChange = (cardId => labelId => () => {
     if (cardLabels.includes(labelId)) {
       cardHandlers.removeCardLabel({ cardId, labelId });
@@ -25,23 +28,18 @@ export default function LabelForm({
   })(cardId);
   let labels = makeLabels(initLabels, cardLabels);
   return (
-    <div>
-      <LabelButtonList
-        labels={labels}
-        makeOnUncheckClick={makeOnUncheckClick}
-      />
-      <ul>
-        {labels.map(({ id, text, checked }) => (
-          <LabelCheckBoxList
-            key={id}
-            id={id}
-            text={text}
-            checked={checked}
-            makeOnChange={makeOnChange}
-          />
-        ))}
-        <AddLabelList add={labelHandlers.add} />
-      </ul>
+    <div className={styles.list}>
+      <AddLabelList add={labelHandlers.add} />
+
+      {labels.map(({ id, text, checked }) => (
+        <LabelCheckBoxList
+          key={id}
+          id={id}
+          text={text}
+          checked={checked}
+          makeOnChange={makeOnChange}
+        />
+      ))}
     </div>
   );
 }
@@ -55,21 +53,22 @@ function AddLabelList({ add }) {
   };
   const onChange = e => setInp(e.target.value);
   return (
-    <li>
-      <form onSubmit={onSubmit}>
-        <label>
-          add label
-          <input type="text" value={inp} onChange={onChange} />
-        </label>
-        <input type="submit" value="submit" />
-      </form>
-    </li>
+    <form className={styles.listItem} onSubmit={onSubmit}>
+      <input
+        className={styles.input}
+        placeholder="add label"
+        type="text"
+        value={inp}
+        onChange={onChange}
+      />
+      <Add style={{ width: "18px", height: "18px" }} />
+    </form>
   );
 }
 
 export function LabelButtonList({ labels, makeOnUncheckClick }) {
   return (
-    <ul>
+    <>
       {labels
         .filter(({ checked }) => checked === true)
         .map(({ id, text }) => (
@@ -80,7 +79,7 @@ export function LabelButtonList({ labels, makeOnUncheckClick }) {
             makeOnUncheckClick={makeOnUncheckClick}
           />
         ))}
-    </ul>
+    </>
   );
 }
 
@@ -92,11 +91,9 @@ function LabelButton({ id, text, makeOnUncheckClick }) {
 
 export function LabelCheckBoxList({ id, text, checked, makeOnChange }) {
   return (
-    <li key={id}>
-      <label>
-        <input type="checkbox" checked={checked} onChange={makeOnChange(id)} />
-        {text}
-      </label>
+    <li key={id} className={styles.listItem} onClick={makeOnChange(id)}>
+      <CheckBox checked={checked} onChange={makeOnChange(id)} size="xs" />
+      <div className={styles.text}>{text}</div>
     </li>
   );
 }

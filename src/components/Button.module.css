@@ -13,6 +13,10 @@
   padding: 8px;
 }
 
+.size_xs {
+  padding: 0;
+}
+
 .ButtonHover {
   cursor: pointer;
   outline: none;

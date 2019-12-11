@@ -19,6 +19,7 @@ export default function Button(props) {
       className={cx(className, styles.Button, {
         [styles.size_xl]: size === "xl",
         [styles.size_l]: size === "l",
+        [styles.size_xs]: size === "xs",
 
         [styles.ButtonHover]: hover,
         [styles.ButtonHoverBackground]: hover && hoverBackground

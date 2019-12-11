@@ -3,8 +3,7 @@ import useTodo from "reducers/useTodo";
 import styles from "./Todos.module.css";
 import TextArea from "components/TextArea";
 import Button from "components/Button";
-import { ReactComponent as CheckedCheckBox } from "statics/svgs/check_box_outline_blank.svg";
-import { ReactComponent as CheckBox } from "statics/svgs/check_box.svg";
+import CheckBox from "components/CheckBox";
 import { ReactComponent as Close } from "statics/svgs/close.svg";
 import { ReactComponent as Add } from "statics/svgs/add.svg";
 
@@ -61,15 +60,14 @@ function Todo({ id, text, checked, todoHandlers, updateCardTodos }) {
   };
   return (
     <div key={id} className={styles.todoList}>
-      <Button
+      <CheckBox
         className={styles.todoCheckbox}
         type="checkbox"
         key={id}
         checked={checked}
-        onClick={onChange}
-      >
-        {checked ? <CheckedCheckBox /> : <CheckBox />}
-      </Button>
+        onChange={onChange}
+      />
+
       <TextArea className={styles.todoTextArea} value={text} />
       <Button key={id} onClick={() => todoHandlers.remove({ id })}>
         <Close />

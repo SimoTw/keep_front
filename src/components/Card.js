@@ -1,8 +1,8 @@
-import React, { useMemo } from "react";
+import React from "react";
 import cx from "classnames";
 import styles from "./Card.module.css";
 import ColorPicker from "components/ColorPicker";
-import LabelForm from "components/CardLabels";
+import CardLabels from "components/CardLabels";
 import TextArea from "components/TextArea";
 import Button from "components/Button";
 import ButtonPopover from "components/ButtonPopover";
@@ -73,20 +73,10 @@ export default function Card({ card, labels, cardHandlers, labelHandlers }) {
             cardHandlers={cardHandlers}
             onChange={makeOnChange("backgroundColor")}
           />
-          {/* <select
-            value={backgroundColor}
-            onChange={makeOnChange("backgroundColor")}
-          >
-            {colorNames.map(color => (
-              <option key={color} value={color}>
-                {color}
-              </option>
-            ))}
-          </select> */}
         </ButtonPopover>
 
         <ButtonPopover svg={<Label />}>
-          <LabelForm
+          <CardLabels
             cardId={id}
             labels={labels}
             cardLabels={cardLabels}
