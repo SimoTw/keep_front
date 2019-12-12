@@ -34,7 +34,7 @@ export default class Circle extends React.Component {
         >
           <path className={styles[`${colorName}`]} d="m0 0h18v18h-18z" />
           <path
-            display={!selected && "none"}
+            display={selected ? "" : "none"}
             fill="rgba(0,0,0,0.4)"
             d="m6.61 11.89l-3.11-3.11-1.06 1.06 4.17 4.16 8.95-8.95-1.06-1.05z"
           />

@@ -7,7 +7,8 @@ export default function TextArea({
   className,
   onChange,
   value,
-  placeholder = "add some content here"
+  placeholder = "add some content here",
+  ...props
 }) {
   return (
     <AutoTextArea
@@ -15,6 +16,7 @@ export default function TextArea({
       onChange={onChange}
       value={value}
       placeholder={placeholder}
+      {...props}
     />
   );
 }

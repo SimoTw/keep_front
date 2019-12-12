@@ -21,10 +21,9 @@ export default class ColorPicker extends React.Component {
     const { backgroundColor: selectedColor } = this.props;
     return (
       <div className={styles.container}>
-        {colorNames.map(colorName => (
-          <div>
+        {colorNames.map((colorName, index) => (
+          <div key={colorName}>
             <Circle
-              key={colorName}
               selected={selectedColor === colorName}
               colorName={colorName}
               onClick={this.makeOnClick(colorName)}

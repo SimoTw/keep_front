@@ -9,11 +9,13 @@ import ButtonPopover from "components/ButtonPopover";
 import { ReactComponent as ColorLen } from "statics/svgs/color_lens.svg";
 import { ReactComponent as Label } from "statics/svgs/label.svg";
 import { ReactComponent as Delete } from "statics/svgs/delete.svg";
+import { ReactComponent as Close } from "statics/svgs/close.svg";
 
 // import CardPin from "components/CardPin";
 import Todos from "components/Todos";
 
-export default function Card({ card, labels, cardHandlers, labelHandlers }) {
+export default function Card(props) {
+  const { card, cardHandlers, labelHandlers } = props;
   const {
     id,
     header,
@@ -24,6 +26,9 @@ export default function Card({ card, labels, cardHandlers, labelHandlers }) {
     todos
     // pinned
   } = card;
+
+  let labels = makeLabels(props.labels, cardLabels);
+
   const makeOnChange = field => e => {
     cardHandlers.onChange({
       id,
@@ -62,6 +67,12 @@ export default function Card({ card, labels, cardHandlers, labelHandlers }) {
         ) : (
           <Todos todos={todos} cardHandlers={cardHandlers} id={id} />
         )}
+
+        <LabelButtonList
+          labels={labels}
+          makeOnUncheckClick={(cardId => labelId => () =>
+            cardHandlers.removeCardLabel({ cardId, labelId }))(id)}
+        />
       </div>
 
       {/* footer */}
@@ -90,4 +101,59 @@ export default function Card({ card, labels, cardHandlers, labelHandlers }) {
       </div>
     </div>
   );
+}
+
+//
+
+export function LabelButtonList({ labels, makeOnUncheckClick }) {
+  return (
+    <div className={styles.listButtonsContainer}>
+      {labels
+        .filter(({ checked }) => checked === true)
+        .map(({ id, text }) => (
+          <LabelButton
+            key={id}
+            id={id}
+            text={text}
+            makeOnUncheckClick={makeOnUncheckClick}
+          />
+        ))}
+    </div>
+  );
+}
+
+function LabelButton({ id, text, makeOnUncheckClick }) {
+  const [hover, setHover] = React.useState(false);
+  const onMouseEnter = () => setHover(true);
+  const onMouseLeave = () => setHover(false);
+
+  return (
+    <div
+      className={styles.labelButton}
+      key={id}
+      onClick={makeOnUncheckClick(id)}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
+      {`${id} ${text}`}
+      {hover && (
+        <Close
+          style={{
+            right: "2px",
+            top: "50%",
+            width: "20px",
+            height: "20px",
+            fill: "#3c4043"
+          }}
+        />
+      )}
+    </div>
+  );
+}
+
+function makeLabels(labels, cardLabels) {
+  return labels.map(label => ({
+    ...label,
+    checked: cardLabels.includes(label.id)
+  }));
 }

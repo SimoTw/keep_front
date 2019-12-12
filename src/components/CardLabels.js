@@ -14,14 +14,12 @@ export default function LabelForm({
   cardLabels
 }) {
   function makeLabels(labels, cardLabels) {
-    return labels.map(({ cards, ...label }) => ({
+    return labels.map(label => ({
       ...label,
       checked: cardLabels.includes(label.id)
     }));
   }
-  // const makeOnUncheckClick = (cardId => labelId => () => {
-  //   cardHandlers.removeCardLabel({ cardId, labelId });
-  // })(cardId);
+
   const makeOnChange = (cardId => labelId => () => {
     if (cardLabels.includes(labelId)) {
       cardHandlers.removeCardLabel({ cardId, labelId });
@@ -79,30 +77,8 @@ export function AddLabelList({ add }) {
   );
 }
 
-export function LabelButtonList({ labels, makeOnUncheckClick }) {
-  return (
-    <>
-      {labels
-        .filter(({ checked }) => checked === true)
-        .map(({ id, text }) => (
-          <LabelButton
-            key={id}
-            id={id}
-            text={text}
-            makeOnUncheckClick={makeOnUncheckClick}
-          />
-        ))}
-    </>
-  );
-}
-
-function LabelButton({ id, text, makeOnUncheckClick }) {
-  return (
-    <button key={id} onClick={makeOnUncheckClick(id)}>{`${id} ${text}`}</button>
-  );
-}
-
-export function LabelCheckBoxList({ id, text, checked, makeOnChange }) {
+export function LabelCheckBoxList(props) {
+  const { id, text, checked, makeOnChange } = props;
   return (
     <li
       key={id}

@@ -24,7 +24,7 @@ const Sidebar = ({ labels, labelHandlers, isSidebarOpen }) => {
     },
     { id: 3, text: "trash", to: "/trash" }
   ];
-  const renderList = (list, field) => {
+  const renderList = list => {
     return (
       <>
         {list.map(({ id, text, to, onClick }) => (

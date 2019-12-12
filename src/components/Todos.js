@@ -35,21 +35,29 @@ export default function Todos({ todos: initTodos, cardHandlers, id }) {
 }
 
 function AddTodo({ todoHandlers }) {
+  const [inp, setInp] = React.useState("");
   const onClick = () => {
     // add todo
-    todoHandlers.add({ text: "" });
+    todoHandlers.add({ text: inp });
+    setInp("");
   };
   return (
-    <div className={styles.todoList} onClick={onClick}>
-      <Button>
+    <form className={styles.todoList} onSubmit={onClick}>
+      <Button onClick={onClick}>
         <Add />
       </Button>
       <TextArea
         className={styles.todoTextArea}
-        value={""}
+        value={inp}
         placeholder="add Todo"
+        onChange={e => setInp(e.target.value)}
+        // onKeyDown={e => {
+        //   if (e.key === "Enter") {
+        //     onClick();
+        //   }
+        // }}
       />
-    </div>
+    </form>
   );
 }
 
@@ -59,17 +67,20 @@ function Todo({ id, text, checked, todoHandlers, updateCardTodos }) {
     updateCardTodos();
   };
   return (
-    <div key={id} className={styles.todoList}>
+    <div className={styles.todoList}>
       <CheckBox
         className={styles.todoCheckbox}
         type="checkbox"
-        key={id}
         checked={checked}
         onChange={onChange}
       />
 
-      <TextArea className={styles.todoTextArea} value={text} />
-      <Button key={id} onClick={() => todoHandlers.remove({ id })}>
+      <TextArea
+        className={styles.todoTextArea}
+        value={text}
+        onChange={todoHandlers.makeOnChange(id)}
+      />
+      <Button onClick={() => todoHandlers.remove({ id })}>
         <Close />
       </Button>
     </div>

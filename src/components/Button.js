@@ -2,16 +2,16 @@ import React from "react";
 import cx from "classnames";
 import styles from "./Button.module.css";
 
-export default function Button(props) {
-  const {
-    size = "l",
-    children,
-    className,
-    onClick,
-    ariaLabel,
-    tabIndex,
-    hoverBackground = false
-  } = props;
+export default function Button({
+  size = "l",
+  children,
+  className,
+  onClick,
+  ariaLabel,
+  tabIndex,
+  hoverBackground = false,
+  ...props
+}) {
   const [hover, setHover] = React.useState(false);
   return (
     <div
@@ -29,6 +29,7 @@ export default function Button(props) {
       tab-index={tabIndex}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
+      {...props}
     >
       {children}
     </div>
