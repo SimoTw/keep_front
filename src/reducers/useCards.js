@@ -1,10 +1,10 @@
-import { useReducer } from "react";
+import { useReducer, useEffect } from "react";
 import getNextId from "helpers/getNextId";
-
+import useFetchedCards from "fetchData/useFetchedCards";
 /**
  * Card
  * id: string
- * header: string
+ * title: string
  * content: string, Todo, Image, Link
  * backgroundColor: Color
  * labels: [TagID]
@@ -15,16 +15,16 @@ import getNextId from "helpers/getNextId";
 
 const makeCard = ({
   id,
-  header = "",
+  title = "",
   content = "",
   backgroundColor = "white",
   todos = [],
   labels = [],
   pinned = false,
-  contentType = "text"
+  contentType = "content"
 }) => ({
   id,
-  header,
+  title,
   content,
   backgroundColor,
   labels,
@@ -36,13 +36,11 @@ const makeCard = ({
 const cardReducer = (state, action) => {
   switch (action.type) {
     case "add": {
-      const { id, header, content, contentType } = action;
-      let nextId;
-      if (!id) nextId = getNextId(state.allIds);
-      const newCard = makeCard({ id: nextId, header, content, contentType });
+      const { card } = action;
+
       return {
-        byId: { ...state.byId, [newCard.id]: newCard },
-        allIds: [...state.allIds, newCard.id]
+        byId: { ...state.byId, [card.id]: card },
+        allIds: [...state.allIds, card.id]
       };
     }
     case "change": {
@@ -91,6 +89,10 @@ const cardReducer = (state, action) => {
         }
       };
     }
+    case "setCards": {
+      const { cards } = action;
+      return cards;
+    }
 
     default:
       throw new Error(`unhandlable types: ${action.type}`);
@@ -104,19 +106,45 @@ cardReducer.types = {
 };
 
 export default function useCards() {
-  // const initState = {cardForm: makeCard(), cards: []};
+  const [fetchCards, fetchCardHandlers] = useFetchedCards();
   const [state, dispatch] = useReducer(cardReducer, { byId: {}, allIds: [] });
-  const onAddClick = ({ header, content, contentType }) =>
-    dispatch({ type: cardReducer.types.add, header, content, contentType });
-  const onDeleteClick = ({ id }) =>
+  useEffect(() => {
+    const makeById = fetchCards => {
+      const byId = {};
+      fetchCards.forEach(card => {
+        byId[card.cid] = { ...card, id: card.cid };
+        return card;
+      });
+      return byId;
+    };
+    dispatch({
+      type: "setCards",
+      cards: {
+        byId: makeById(fetchCards),
+        allIds: fetchCards.map(card => card.cid)
+      }
+    });
+  }, [fetchCards]);
+  // const initState = {cardForm: makeCard(), cards: []};
+  const onAddClick = ({ title, content, contentType }) => {
+    let nextId = getNextId(state.allIds);
+    const card = makeCard({ id: nextId, title, content, contentType });
+    console.log({ nextId, card, allIds: state.allIds });
+    dispatch({ type: cardReducer.types.add, card });
+    fetchCardHandlers.add({ ...card, cid: card.id });
+  };
+  const onDeleteClick = ({ id }) => {
     dispatch({ type: cardReducer.types.delete, id });
-  const onChange = ({ id, field, payload }) =>
+    fetchCardHandlers.remove(id);
+  };
+  const onChange = ({ id, field, payload }) => {
     dispatch({ type: cardReducer.types.change, id, field, payload });
+    fetchCardHandlers.update(id, { [field]: payload });
+  };
   const addCardLabel = ({ cardId, labelId }) =>
     dispatch({ type: "addCardLabel", cardId, labelId });
   const removeCardLabel = ({ cardId, labelId }) =>
     dispatch({ type: "removeCardLabel", cardId, labelId });
-
   return [
     state,
     { onAddClick, onDeleteClick, onChange, addCardLabel, removeCardLabel }

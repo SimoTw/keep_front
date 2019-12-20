@@ -1,44 +1,36 @@
-import React from "react";
-import useTodo from "reducers/useTodo";
+import React, { useContext } from "react";
 import styles from "./Todos.module.css";
 import TextArea from "components/TextArea";
 import Button from "components/Button";
 import CheckBox from "components/CheckBox";
 import { ReactComponent as Close } from "statics/svgs/close.svg";
 import { ReactComponent as Add } from "statics/svgs/add.svg";
+import { TodosByIdContext, TodoHandlerContext } from "containers/App";
 
 // import Input from "components/Input";
 
-export default function Todos({ todos: initTodos, cardHandlers, id }) {
-  const [todos, todoHandlers] = useTodo(initTodos);
-  const updateCardTodos = () => {
-    cardHandlers.onChange({
-      id,
-      field: "todos",
-      payload: todos
-    });
-  };
+export default function Todos({ todos: allIds, cardId }) {
+  // const [todos, todoHandlers] = useTodo(id);
+  const byId = useContext(TodosByIdContext);
 
   return (
     <>
-      {todos.map(todo => (
-        <Todo
-          key={todo.id}
-          {...todo}
-          todoHandlers={todoHandlers}
-          updateCardTodos={updateCardTodos}
-        />
-      ))}
-      <AddTodo todoHandlers={todoHandlers} />
+      {allIds.map(id => {
+        const todo = byId[id];
+        return <Todo key={todo.id} {...todo} />;
+      })}
+      <AddTodo />
     </>
   );
 }
 
-function AddTodo({ todoHandlers }) {
+function AddTodo() {
   const [inp, setInp] = React.useState("");
+  const todoHandlers = useContext(TodoHandlerContext);
+
   const onClick = () => {
     // add todo
-    todoHandlers.add({ text: inp });
+    todoHandlers.add(inp);
     setInp("");
   };
   return (
@@ -51,20 +43,22 @@ function AddTodo({ todoHandlers }) {
         value={inp}
         placeholder="add Todo"
         onChange={e => setInp(e.target.value)}
-        // onKeyDown={e => {
-        //   if (e.key === "Enter") {
-        //     onClick();
-        //   }
-        // }}
       />
     </form>
   );
 }
 
-function Todo({ id, text, checked, todoHandlers, updateCardTodos }) {
-  const onChange = () => {
-    todoHandlers.toggle({ id });
-    updateCardTodos();
+function Todo({ id, text, checked }) {
+  const todoHandlers = useContext(TodoHandlerContext);
+  const onToggle = () => {
+    todoHandlers.toggle(id);
+  };
+  const onTextChange = e => {
+    const { value } = e.target;
+    todoHandlers.onChange(id, value);
+  };
+  const onRemoveClick = () => {
+    todoHandlers.remove(id);
   };
   return (
     <div className={styles.todoList}>
@@ -72,48 +66,17 @@ function Todo({ id, text, checked, todoHandlers, updateCardTodos }) {
         className={styles.todoCheckbox}
         type="checkbox"
         checked={checked}
-        onChange={onChange}
+        onChange={onToggle}
       />
 
       <TextArea
         className={styles.todoTextArea}
         value={text}
-        onChange={todoHandlers.makeOnChange(id)}
+        onChange={onTextChange}
       />
-      <Button onClick={() => todoHandlers.remove({ id })}>
+      <Button onClick={onRemoveClick}>
         <Close />
       </Button>
     </div>
   );
 }
-
-// function TodoForm({ todoHandlers, updateCardTodos }) {
-//   const [todoInp, setTodoInp] = useState("");
-//   const handleSubmit = e => {
-//     e.preventDefault();
-//     todoHandlers.add({ text: todoInp });
-//     updateCardTodos();
-//     setTodoInp("");
-//   };
-//   return (
-//     <form className={styles.todoList} onSubmit={handleSubmit}>
-//       {todoInp === "" ? (
-//         <Input
-//           className={styles.input}
-//           type="text"
-//           placeholder="add todo"
-//           value={todoInp}
-//           onChange={e => setTodoInp(e.target.value)}
-//         />
-//       ) : (
-//         <Todo
-//           className={styles.input}
-//           type="text"
-//           placeholder="add todo"
-//           value={todoInp}
-//           onChange={e => setTodoInp(e.target.value)}
-//         />
-//       )}
-//     </form>
-//   );
-// }

@@ -1,6 +1,6 @@
 card
   id: int
-  header: string
+  title: string
   content: string
   backgroundColor: color
   labels: [label] many to many

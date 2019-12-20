@@ -18,7 +18,7 @@ export default function Card(props) {
   const { card, cardHandlers, labelHandlers } = props;
   const {
     id,
-    header,
+    title,
     content,
     backgroundColor,
     labels: cardLabels,
@@ -48,24 +48,24 @@ export default function Card(props) {
       <div className={styles.header}>
         <input
           className={styles.header_input}
-          placeholder="add header"
+          placeholder="add title"
           type="text"
-          onChange={makeOnChange("header")}
-          value={header}
+          onChange={makeOnChange("title")}
+          value={title}
         />
         {/* <CardPin id={id} pinned={pinned} cardHandlers={cardHandlers} /> */}
       </div>
 
       {/* body */}
       <div className={styles.content}>
-        {contentType === "text" ? (
+        {contentType === "content" ? (
           <TextArea
             className={styles.textArea}
             onChange={makeOnChange("content")}
             value={content}
           />
         ) : (
-          <Todos todos={todos} cardHandlers={cardHandlers} id={id} />
+          <Todos todos={todos} cardId={id} />
         )}
 
         <LabelButtonList

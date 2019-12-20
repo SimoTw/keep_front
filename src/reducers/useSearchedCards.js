@@ -13,16 +13,16 @@ const makeInitState = () => ({
 const reducer = (state, action) => {
   function isTextInCard({ id, byId, text }) {
     const card = byId[id];
-    const { header, content, todos } = card;
+    const { title, content, todos } = card;
     let reg = new RegExp(text);
-    const inHeader = Array.isArray(header.match(reg));
+    const inTitle = Array.isArray(title.match(reg));
     const inContent = Array.isArray(content.match(reg));
     const inTodos = todos.reduce(
       (acc, todo) => acc || Array.isArray(todo.text.match(reg)),
       false
     );
     // todo is todo XD
-    return inHeader || inContent || inTodos;
+    return inTitle || inContent || inTodos;
   }
   function isLabelIdInCard({ cardId, byId, labelId }) {
     const card = byId[cardId];
@@ -104,6 +104,12 @@ export default function useSearchedCard() {
   // state: { cards: [list of card to display], search: [state needed for search form]}
   // handlers:
   const { isSearching, searchedId } = state;
+
+  // const searchedCards = _makeCards(searchedId);
+  // // const allCards = _makeCards(allIds);
+  // const allCards = allIds.map(id => byId)
+  // console.log({ byId, allIds, searchedCards, allCards });
+
   return [
     {
       cards: isSearching ? _makeCards(searchedId) : _makeCards(allIds),
