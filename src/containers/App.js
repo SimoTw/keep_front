@@ -13,7 +13,7 @@ export const TodoHandlerContext = React.createContext();
 
 function App() {
   const [isSidebarOpen, setisSidebarOpen] = React.useState(false);
-  const [labels, labelHandlers] = useLabels();
+  const [labelsState, labelHandlers] = useLabels();
   const [
     { cards, search },
     { search: searchHandlers, cards: cardHandlers }
@@ -21,6 +21,8 @@ function App() {
   const [{ byId: todosById }, todoHandlers] = useTodo();
 
   console.log({ cards });
+
+  const labels = labelsState.allIds.map(id => labelsState.byId[id]);
 
   const toggleSidebar = () => {
     setisSidebarOpen(!isSidebarOpen);

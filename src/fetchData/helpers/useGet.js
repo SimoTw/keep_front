@@ -28,5 +28,5 @@ export default function useGet(query) {
     }
     getCards();
   }, [query, regetCount]);
-  return [results, loading, reget];
+  return { results, loading, reget };
 }

@@ -9,10 +9,10 @@ export default function useFetchedTodos() {
   //   const [todos, isGettingTodos, reget] = useGet(
   //     `http://localhost:8080/api/cards/${cardId}/todos`
   //   );
-  const [todosById, isGettingTodos, reget] = useGet(`${baseURL}/todos`);
-  const [deleteMethod] = useDelete();
-  const [putMethod, putResult] = usePut();
-  const [postMethod, postResults] = usePost();
+  const { results: todosById, reget } = useGet(`${baseURL}/todos`);
+  const { deleteMethod } = useDelete();
+  const { putMethod } = usePut();
+  const { postMethod } = usePost();
 
   const remove = todoId => deleteMethod(`${baseURL}/todos/${todoId}`);
   const update = (todoId, data) =>

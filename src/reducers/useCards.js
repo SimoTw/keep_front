@@ -106,8 +106,9 @@ cardReducer.types = {
 };
 
 export default function useCards() {
-  const [fetchCards, fetchCardHandlers] = useFetchedCards();
   const [state, dispatch] = useReducer(cardReducer, { byId: {}, allIds: [] });
+  const [fetchCards, fetchCardHandlers] = useFetchedCards();
+
   useEffect(() => {
     const makeById = fetchCards => {
       const byId = {};
@@ -141,10 +142,14 @@ export default function useCards() {
     dispatch({ type: cardReducer.types.change, id, field, payload });
     fetchCardHandlers.update(id, { [field]: payload });
   };
-  const addCardLabel = ({ cardId, labelId }) =>
+  const addCardLabel = ({ cardId, labelId }) => {
     dispatch({ type: "addCardLabel", cardId, labelId });
-  const removeCardLabel = ({ cardId, labelId }) =>
+    fetchCardHandlers.addLabel(cardId, labelId);
+  };
+  const removeCardLabel = ({ cardId, labelId }) => {
     dispatch({ type: "removeCardLabel", cardId, labelId });
+    fetchCardHandlers.removeLabel(cardId, labelId);
+  };
   return [
     state,
     { onAddClick, onDeleteClick, onChange, addCardLabel, removeCardLabel }

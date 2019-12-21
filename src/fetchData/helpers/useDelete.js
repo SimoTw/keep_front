@@ -13,8 +13,8 @@ export default function useDelete() {
         mode: "cors",
         credentials: "include"
       });
-      //   const json = await response.json();
-      //   setResults(json);
+      const json = await response.json();
+      setResults(json);
     } catch (err) {
       console.log({ err });
     } finally {
@@ -22,5 +22,5 @@ export default function useDelete() {
     }
   }
 
-  return [deleteMethod, results, loading];
+  return { results, deleteMethod, loading };
 }

@@ -26,5 +26,5 @@ export default function usePost() {
     }
   }
 
-  return [postMethod, results, loading];
+  return { postMethod, results, loading };
 }

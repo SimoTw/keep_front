@@ -1,8 +1,9 @@
-import { useReducer } from "react";
+import { useReducer, useEffect } from "react";
+import useFetchedLabels from "fetchData/useFetchedLabels";
+import getNextId from "helpers/getNextId";
 
-let count = 0;
-export const makelabel = ({ text, to }) => ({
-  id: count++,
+export const makelabel = ({ allIds, text, to }) => ({
+  id: getNextId(allIds),
   text,
   to,
   select: false
@@ -12,19 +13,31 @@ function labelReducer(state, action) {
   switch (action.type) {
     // label actions
     case useLabels.types.add: {
-      const { text, to } = action;
-      return [...state, makelabel({ text, to })];
+      const { label } = action;
+      return {
+        byId: { ...state.byId, [label.id]: label },
+        allIds: [...state.allIds, label.id]
+      };
     }
     case useLabels.types.remove: {
       const { id } = action;
-      return state.filter(label => label.id !== id);
+      const nextById = { ...state.byId };
+      delete nextById[id];
+      return {
+        byId: nextById,
+        allIds: state.allIds.filter(labelId => labelId !== id)
+      };
     }
     case useLabels.types.update: {
       const { id, field, payload } = action;
-
-      return state.map(label =>
-        label.id === id ? { ...label, [field]: payload } : label
-      );
+      return {
+        ...state,
+        byId: { ...state.byId, [id]: { ...state.byId[id], [field]: payload } }
+      };
+    }
+    case "set": {
+      const { labels } = action;
+      return labels;
     }
 
     default: {
@@ -33,11 +46,36 @@ function labelReducer(state, action) {
   }
 }
 
-function useLabels(initState = []) {
-  const [state, dispatch] = useReducer(labelReducer, initState);
-
-  const add = ({ text, to }) =>
-    dispatch({ type: useLabels.types.add, text, to });
+export default function useLabels() {
+  const [state, dispatch] = useReducer(labelReducer, {
+    byId: {},
+    allIds: []
+  });
+  const [fetchedLabels, fetchLabelHandlers] = useFetchedLabels();
+  console.log({ fetchedLabels });
+  useEffect(() => {
+    const makeById = fetchedLabels => {
+      const byId = {};
+      fetchedLabels.forEach(label => {
+        byId[label.lid] = { ...label, id: label.lid };
+        return label;
+      });
+      return byId;
+    };
+    dispatch({
+      type: "set",
+      labels: {
+        byId: makeById(fetchedLabels),
+        allIds: fetchedLabels.map(label => label.lid)
+      }
+    });
+  }, [fetchedLabels]);
+  const add = ({ text, to }) => {
+    const newLabel = makelabel({ allIds: state.allIds, text, to });
+    console.log({ newLabel });
+    dispatch({ type: useLabels.types.add, label: newLabel });
+    fetchLabelHandlers.add(newLabel);
+  };
   const remove = ({ id }) => dispatch({ type: useLabels.types.remove, id });
   const update = ({ id, field, payload }) =>
     dispatch({
@@ -55,5 +93,3 @@ useLabels.types = {
   remove: "remove",
   update: "update"
 };
-
-export default useLabels;
