@@ -5,6 +5,7 @@ import Button from "components/Button";
 import styles from "./SearchForm.module.css";
 
 export default function SearchForm({
+  className,
   search: { text },
   searchHandlers: { reset, submit, makeOnChange }
 }) {
@@ -21,6 +22,7 @@ export default function SearchForm({
         <input
           id="search"
           type="text"
+          placeholder="Search"
           className={styles.search_input}
           onChange={makeOnChange("text")}
           value={text}

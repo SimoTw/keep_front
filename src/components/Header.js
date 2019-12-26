@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import { ReactComponent as Menu } from "statics/svgs/menu.svg";
 import Button from "components/Button";
 import SearchForm from "components/SearchForm";
+import { style } from "@material-ui/system";
 
 const Header = ({
   children,
@@ -22,7 +23,11 @@ const Header = ({
         <Menu />
       </Button>
       <div className={styles.logo_container}>{pathName}</div>
-      <SearchForm search={search} searchHandlers={searchHandlers} />
+      <SearchForm
+        className={style.searchFormContainer}
+        search={search}
+        searchHandlers={searchHandlers}
+      />
     </header>
   );
 };

@@ -2,8 +2,7 @@ import useGet from "./helpers/useGet";
 import usePost from "fetchData/helpers/usePost";
 import usePut from "fetchData/helpers/usePut";
 import useDelete from "fetchData/helpers/useDelete";
-
-const baseURL = "http://localhost:8080/api";
+import { baseURL } from "api/baseURL";
 
 export default function useFetchedLabels() {
   const { results: labels, reget } = useGet(`${baseURL}/labels/`);

@@ -5,7 +5,7 @@ import Button from "components/Button";
 import CheckBox from "components/CheckBox";
 import { ReactComponent as Close } from "statics/svgs/close.svg";
 import { ReactComponent as Add } from "statics/svgs/add.svg";
-import { TodosByIdContext, TodoHandlerContext } from "containers/App";
+import { TodosByIdContext, TodoHandlerContext } from "App";
 
 // import Input from "components/Input";
 
