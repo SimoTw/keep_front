@@ -16,7 +16,10 @@ export default function useGet(query) {
         const response = await fetch(query, {
           method: "GET",
           mode: "cors",
-          credentials: "include"
+          headers: {
+            "Access-Control-Request-Method": "GET",
+            "Content-Type": "application/json"
+          }
         });
         const json = await response.json();
         setResults(json);

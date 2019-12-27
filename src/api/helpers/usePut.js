@@ -1,20 +1,20 @@
 import { useState } from "react";
 
-export default function usePost() {
+export default function usePut() {
   const [results, setResults] = useState([]);
   // const [loading, setLoading] = useState(false);
   let loading = false;
-  async function postMethod(query, data) {
+  async function putMethod(query, data) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     loading = true;
     try {
       const response = await fetch(query, {
-        method: "POST",
+        method: "PUT",
         body: JSON.stringify(data),
         mode: "cors",
-        credentials: "include",
         headers: {
-          "content-type": "application/json"
+          "Access-Control-Request-Method": "PUT",
+          "Content-Type": "application/json"
         }
       });
       const json = await response.json();
@@ -26,5 +26,5 @@ export default function usePost() {
     }
   }
 
-  return { postMethod, results, loading };
+  return { putMethod, results, loading };
 }

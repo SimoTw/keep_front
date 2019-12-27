@@ -1,6 +1,6 @@
 import { useReducer, useEffect } from "react";
 import getNextId from "helpers/getNextId";
-import useFetchedTodos from "fetchData/useFetchedTodos";
+import useFetchedTodos from "api/useFetchedTodos";
 
 function makeTodo({ content, allIds }) {
   const id = getNextId(allIds);

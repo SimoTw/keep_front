@@ -1,5 +1,5 @@
 import { useReducer, useEffect } from "react";
-import useFetchedLabels from "fetchData/useFetchedLabels";
+import useFetchedLabels from "api/useFetchedLabels";
 import getNextId from "helpers/getNextId";
 
 export const makelabel = ({ allIds, text, to }) => ({

@@ -1,6 +1,6 @@
 import { useReducer, useEffect } from "react";
 import getNextId from "helpers/getNextId";
-import useFetchedCards from "fetchData/useFetchedCards";
+import useFetchedCards from "api/useFetchedCards";
 /**
  * Card
  * id: string
