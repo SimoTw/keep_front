@@ -4,7 +4,7 @@ export const baseURL = (function() {
       return "http://localhost:3000/api";
     }
     case "production": {
-      return "http://keep-21.us-west-2.elasticbeanstalk.com/api";
+      return "http://keep-node-backend-dev.us-west-2.elasticbeanstalk.com/api";
     }
     default:
       throw new Error(`unhandleable NODE_ENV ${process.env.NODE_END}`);
