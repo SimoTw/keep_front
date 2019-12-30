@@ -12,13 +12,13 @@ export default class ColorPicker extends React.Component {
     this.setState({ selectedColor: colorName });
     cardHandlers.onChange({
       id: cardId,
-      field: "backgroundColor",
+      field: "cardColor",
       payload: colorName
     });
   };
   render() {
     // const { selectedColor } = this.state;
-    const { backgroundColor: selectedColor } = this.props;
+    const { cardColor: selectedColor } = this.props;
     return (
       <div className={styles.container}>
         {colorNames.map((colorName, index) => (

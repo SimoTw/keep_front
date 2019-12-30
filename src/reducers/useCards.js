@@ -6,7 +6,7 @@ import useFetchedCards from "api/useFetchedCards";
  * id: string
  * title: string
  * content: string, Todo, Image, Link
- * backgroundColor: Color
+ * cardColor: Color
  * labels: [TagID]
  * time: timeStamp
  *
@@ -17,7 +17,7 @@ const makeCard = ({
   id,
   title = "",
   content = "",
-  backgroundColor = "white",
+  cardColor = "white",
   todos = [],
   labels = [],
   pinned = false,
@@ -26,7 +26,7 @@ const makeCard = ({
   id,
   title,
   content,
-  backgroundColor,
+  cardColor,
   labels,
   todos,
   pinned,

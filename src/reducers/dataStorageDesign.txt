@@ -2,7 +2,7 @@ card
   id: int
   title: string
   content: string
-  backgroundColor: color
+  cardColor: color
   labels: [label] many to many
   todos: [todo] one to many
   pinned: boolean

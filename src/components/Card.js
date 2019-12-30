@@ -20,7 +20,7 @@ export default function Card(props) {
     id,
     title,
     content,
-    backgroundColor,
+    cardColor,
     labels: cardLabels,
     contentType,
     todos
@@ -42,7 +42,7 @@ export default function Card(props) {
 
   return (
     <div
-      className={cx(styles.container, styles[`container__${backgroundColor}`])}
+      className={cx(styles.container, styles[`container__${cardColor}`])}
     >
       {/* header */}
       <div className={styles.header}>
@@ -79,10 +79,10 @@ export default function Card(props) {
       <div className={styles.footer}>
         <ButtonPopover svg={<ColorLen />}>
           <ColorPicker
-            backgroundColor={backgroundColor}
+            cardColor={cardColor}
             cardId={id}
             cardHandlers={cardHandlers}
-            onChange={makeOnChange("backgroundColor")}
+            onChange={makeOnChange("cardColor")}
           />
         </ButtonPopover>
 
