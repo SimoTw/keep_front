@@ -9,6 +9,7 @@ export default function useFetchedTodos() {
   //     `http://localhost:8080/api/cards/${cardId}/todos`
   //   );
   const { results: todosById, reget } = useGet(`${baseURL}/todos`);
+  console.log("useFetchedTodos", { todosById });
   const { deleteMethod } = useDelete();
   const { putMethod } = usePut();
   const { postMethod } = usePost();

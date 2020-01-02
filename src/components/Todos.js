@@ -12,6 +12,7 @@ import { TodosByIdContext, TodoHandlerContext } from "App";
 export default function Todos({ todos: allIds, cardId }) {
   // const [todos, todoHandlers] = useTodo(id);
   const byId = useContext(TodosByIdContext);
+  console.log({ allIds, byId, cardId });
 
   return (
     <>
@@ -19,18 +20,18 @@ export default function Todos({ todos: allIds, cardId }) {
         const todo = byId[id];
         return <Todo key={todo.id} {...todo} />;
       })}
-      <AddTodo />
+      <AddTodo cardId={cardId} />
     </>
   );
 }
 
-function AddTodo() {
+function AddTodo({ cardId }) {
   const [inp, setInp] = React.useState("");
   const todoHandlers = useContext(TodoHandlerContext);
 
   const onClick = () => {
     // add todo
-    todoHandlers.add(inp);
+    todoHandlers.add(inp, cardId);
     setInp("");
   };
   return (

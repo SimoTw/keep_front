@@ -2,12 +2,13 @@ import { useReducer, useEffect } from "react";
 import getNextId from "helpers/getNextId";
 import useFetchedTodos from "api/useFetchedTodos";
 
-function makeTodo({ content, allIds }) {
+function makeTodo({ content, allIds, cardId }) {
   const id = getNextId(allIds);
   return {
     id,
     content,
-    checked: false
+    checked: false,
+    cardId
   };
 }
 
@@ -41,19 +42,7 @@ const todoReducer = (state, action) => {
     }
     case "setTodos": {
       const { todos } = action;
-      const makeById = todos => {
-        const byId = {};
-        todos.forEach(todo => {
-          byId[todo.id] = todo;
-          return todo;
-        });
-        return byId;
-      };
-      const byId = makeById(todos);
-      return {
-        byId,
-        allIds: todos.map(todo => todo.id)
-      };
+      return todos;
     }
     default:
       throw new Error(`Unhandlable type ${action.type}`);
@@ -75,14 +64,27 @@ export default function useTodo() {
   //reset state while get fetch todos
   const [fetchedTodos, fetchTodoHanlers] = useFetchedTodos();
   useEffect(() => {
+    console.log("useEffect", { fetchedTodos });
+    const makeById = fetchedTodos => {
+      const byId = {};
+      fetchedTodos.forEach(todo => {
+        byId[todo.id] = todo;
+        return todo;
+      });
+      return byId;
+    };
     dispatch({
       type: "setTodos",
-      todos: fetchedTodos
+      todos: {
+        byId: makeById(fetchedTodos),
+        allIds: fetchedTodos.map(todo => todo.id)
+      }
     });
   }, [fetchedTodos]);
 
-  const add = content => {
-    const todo = makeTodo({ content, allIds: state.allIds });
+  const add = (content, cardId) => {
+    const todo = makeTodo({ content, allIds: state.allIds, cardId });
+    console.log({ todo });
     dispatch({ type: todoReducer.types.add, todo });
     fetchTodoHanlers.add(todo);
   };

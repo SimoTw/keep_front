@@ -52,7 +52,6 @@ export default function useLabels() {
     allIds: []
   });
   const [fetchedLabels, fetchLabelHandlers] = useFetchedLabels();
-  console.log({ fetchedLabels });
   useEffect(() => {
     const makeById = fetchedLabels => {
       const byId = {};
@@ -72,7 +71,6 @@ export default function useLabels() {
   }, [fetchedLabels]);
   const add = ({ text, to }) => {
     const newLabel = makelabel({ allIds: state.allIds, text, to });
-    console.log({ newLabel });
     dispatch({ type: useLabels.types.add, label: newLabel });
     fetchLabelHandlers.add(newLabel);
   };
