@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function usePut() {
+export default function usePut(handleRes = () => {}) {
   const [results, setResults] = useState([]);
   // const [loading, setLoading] = useState(false);
   let loading = false;
@@ -19,6 +19,7 @@ export default function usePut() {
       });
       const json = await response.json();
       setResults(json);
+      handleRes(json);
     } catch (err) {
       console.log({ err });
     } finally {

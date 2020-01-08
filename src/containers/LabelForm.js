@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AddLabelList, LabelList } from "components/CardLabels";
+import { AddLabelList, LabelList } from "components/CardLabels/CardLabels";
 import styles from "./LabelForm.module.css";
 import { ReactComponent as LabelIcon } from "statics/svgs/label.svg";
 import { ReactComponent as Close } from "statics/svgs/close.svg";
@@ -9,11 +9,11 @@ export default function LabelForm({ labels, handlers }) {
   return (
     <LabelList>
       <AddLabelList add={add} />
-      {labels.map(({ id, text }) => (
+      {labels.map(({ id, content }) => (
         <Label
           key={id}
           id={id}
-          initText={text}
+          initText={content}
           remove={remove}
           update={update}
         />
@@ -23,7 +23,7 @@ export default function LabelForm({ labels, handlers }) {
 }
 
 function Label({ id, initText, remove, update }) {
-  const [text, setText] = useState(initText);
+  const [content, setText] = useState(initText);
   return (
     <form
       className={styles.listItem}
@@ -31,8 +31,8 @@ function Label({ id, initText, remove, update }) {
         e.preventDefault();
         update({
           id: id,
-          field: "text",
-          payload: text
+          field: "content",
+          payload: content
         });
       }}
     >
@@ -40,7 +40,7 @@ function Label({ id, initText, remove, update }) {
 
       <input
         className={styles.input}
-        value={text}
+        value={content}
         onChange={e => setText(e.target.value)}
       />
       <Close onClick={() => remove({ id })} />

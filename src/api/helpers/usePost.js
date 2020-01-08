@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function usePost() {
+export default function usePost(handleRes = () => {}) {
   const [results, setResults] = useState([]);
   // const [loading, setLoading] = useState(false);
   let loading = false;
@@ -19,6 +19,7 @@ export default function usePost() {
       });
       const json = await response.json();
       setResults(json);
+      handleRes(json);
     } catch (err) {
       console.log({ err });
     } finally {

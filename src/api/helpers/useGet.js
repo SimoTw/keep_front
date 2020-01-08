@@ -9,7 +9,7 @@ export default function useGet(query) {
     regetCount += 1;
   };
   useEffect(() => {
-    async function getCards() {
+    async function get() {
       // eslint-disable-next-line react-hooks/exhaustive-deps
       loading = true;
       try {
@@ -29,7 +29,7 @@ export default function useGet(query) {
         loading = false;
       }
     }
-    getCards();
+    get();
   }, [query, regetCount]);
   return { results, loading, reget };
 }

@@ -1,38 +1,40 @@
 import React from "react";
 import cx from "classnames";
 import styles from "./Sidebar.module.css";
-import SidebarList from "components/SidebarList";
-import SidebarListButton from "components/SidebarListButton";
+import SidebarList from "components/SidebarList/SidebarList";
+import SidebarListButton from "components/SidebarListButton/SidebarListButton";
 import Modal from "@material-ui/core/Modal";
 import LabelForm from "containers/LabelForm";
 import { useLocation } from "react-router-dom";
+import useLabel from "useReducers/useLabel";
 
-const Sidebar = ({ labels, labelHandlers, isSidebarOpen }) => {
+const Sidebar = ({ isSidebarOpen }) => {
   const [open, setOpen] = React.useState(false);
   const location = useLocation();
+  const [labels, labelHandlers] = useLabel();
 
   const Links = [
-    { id: 0, text: "home", to: "/home" },
-    { id: 1, text: "remider", to: "/remider" },
+    { id: 0, content: "home", to: "/home" },
+    { id: 1, content: "remider", to: "/remider" },
     {
       id: 2,
-      text: "edit labels",
+      content: "edit labels",
       to: "/edit labels",
       onClick: () => {
         setOpen(true);
       }
     },
-    { id: 3, text: "trash", to: "/trash" }
+    { id: 3, content: "trash", to: "/trash" }
   ];
   const renderList = list => {
     return (
       <>
-        {list.map(({ id, text, to, onClick }) => (
+        {list.map(({ id, content, to, onClick }) => (
           <SidebarListButton
             key={id}
             id={id}
             select={to === location.pathname}
-            text={text}
+            content={content}
             to={to}
             onClick={onClick}
           />
