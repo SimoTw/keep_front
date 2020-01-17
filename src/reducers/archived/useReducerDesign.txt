@@ -1,5 +1,0 @@
-useDataName: (fetchedData) => [{component: componentData}, {component: eventHandlers, ...}]
-
-
-fetchedData -update->  useDataName(single source of truth)  -compute-> component data and eventHandlers  
-componene eventHandlers -update-> useDataName

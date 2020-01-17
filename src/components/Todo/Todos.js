@@ -1,11 +1,11 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useEffect } from "react";
 import styles from "./Todos.module.css";
-import TextArea from "components/TextArea/TextArea";
 import Button from "components/Button/Button";
 import CheckBox from "components/CheckBox/CheckBox";
 import { ReactComponent as Close } from "statics/svgs/close.svg";
 import { ReactComponent as Add } from "statics/svgs/add.svg";
 import useTodo from "useReducers/useTodo";
+import Input from "components/Input/Input";
 
 // import Input from "components/Input";
 
@@ -40,7 +40,7 @@ function AddTodo({ cardId, todoHandlers }) {
       <Button onClick={onClick}>
         <Add />
       </Button>
-      <TextArea
+      <Input
         className={styles.todoTextArea}
         value={inp}
         placeholder="add Todo"
@@ -52,18 +52,26 @@ function AddTodo({ cardId, todoHandlers }) {
 
 function Todo({ id, content, checked, todoHandlers }) {
   // const todoHandlers = useContext(TodoHandlerContext);
+
+  const textRef = React.useRef(null);
+  useEffect(() => {
+    textRef.current.value = content;
+  }, [content]);
+
   const onToggle = () => {
     todoHandlers.toggle(id);
   };
-  const onTextChange = e => {
-    const { value } = e.target;
+  const onSubmit = e => {
+    e.preventDefault();
+    const { value } = textRef.current;
     todoHandlers.onChange(id, value);
+    textRef.current.blur();
   };
   const onRemoveClick = () => {
     todoHandlers.remove(id);
   };
   return (
-    <div className={styles.todoList}>
+    <form className={styles.todoList} onSubmit={onSubmit}>
       <CheckBox
         className={styles.todoCheckbox}
         type="checkbox"
@@ -71,14 +79,10 @@ function Todo({ id, content, checked, todoHandlers }) {
         onClick={onToggle}
       />
 
-      <TextArea
-        className={styles.todoTextArea}
-        value={content}
-        onChange={onTextChange}
-      />
+      <Input className={styles.todoTextArea} ref={textRef} />
       <Button onClick={onRemoveClick}>
         <Close />
       </Button>
-    </div>
+    </form>
   );
 }

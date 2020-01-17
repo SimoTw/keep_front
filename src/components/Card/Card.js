@@ -47,13 +47,15 @@ export default function Card(props) {
     <div className={cx(styles.container, styles[`container__${cardColor}`])}>
       {/* header */}
       <div className={styles.header}>
-        <input
-          className={styles.header_input}
-          placeholder="add title"
-          type="text"
-          onChange={makeOnChange("title")}
-          value={title}
-        />
+        <form onSubmit={e => e.preventDefault()}>
+          <input
+            className={styles.header_input}
+            placeholder="add title"
+            type="text"
+            onChange={makeOnChange("title")}
+            value={title}
+          />
+        </form>
         {/* <CardPin id={id} pinned={pinned} cardHandlers={cardHandlers} /> */}
       </div>
 

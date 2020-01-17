@@ -11,9 +11,25 @@
   flex: 1 1 auto;
 }
 
+/* .input {
+  border: none;
+  background: transparent;
+  outline: none;
+  width: auto;
+} */
+
 .input {
   border: none;
   background: transparent;
   outline: none;
   width: auto;
+
+  display: flex;
+  align-items: flex-start;
+  height: 40px;
+  flex: 1 1 auto;
+
+  /* border */
+  border-top: 1px solid var(--gray);
+  border-bottom: 1px solid var(--gray);
 }
