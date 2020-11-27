@@ -111,7 +111,7 @@ const cardReducer = (state = initState, action) => {
 
 const addCard = (card) => ({
   type: types.addCard,
-  payload: card,
+  payload: { card },
 });
 
 const changeCard = (id, field, payload) => ({
