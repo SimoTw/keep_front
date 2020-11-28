@@ -1,21 +1,21 @@
-import React from "react";
-import cx from "classnames";
-import styles from "./Card.module.css";
-import ColorPicker from "components/ColorPicker";
-import CardLabels from "components/CardLabels";
-import TextArea from "components/TextArea";
-import Button from "components/Button";
-import ButtonPopover from "components/ButtonPopover";
-import { ReactComponent as ColorLen } from "statics/svgs/color_lens.svg";
-import { ReactComponent as Label } from "statics/svgs/label.svg";
-import { ReactComponent as Delete } from "statics/svgs/delete.svg";
-import { ReactComponent as Close } from "statics/svgs/close.svg";
+import React from "react"
+import cx from "classnames"
+import styles from "./Card.module.css"
+import ColorPicker from "components/ColorPicker"
+import CardLabels from "components/CardLabels"
+import TextArea from "components/TextArea"
+import Button from "components/Button"
+import ButtonPopover from "components/ButtonPopover"
+import { ReactComponent as ColorLen } from "statics/svgs/color_lens.svg"
+import { ReactComponent as Label } from "statics/svgs/label.svg"
+import { ReactComponent as Delete } from "statics/svgs/delete.svg"
+import { ReactComponent as Close } from "statics/svgs/close.svg"
 
 // import CardPin from "components/CardPin";
-import Todos from "components/Todos";
+import Todos from "components/Todos"
 
 export default function Card(props) {
-  const { card, cardHandlers, labelHandlers } = props;
+  const { card, cardHandlers, labelHandlers } = props
   const {
     id,
     title,
@@ -23,27 +23,25 @@ export default function Card(props) {
     cardColor,
     labels: cardLabels,
     contentType,
-    todos
+    todos,
     // pinned
-  } = card;
+  } = card
 
-  let labels = makeLabels(props.labels, cardLabels);
+  let labels = makeLabels(props.labels, cardLabels)
 
-  const makeOnChange = field => e => {
+  const makeOnChange = (field) => (e) => {
     cardHandlers.onChange({
       id,
       field,
-      payload: e.target.value
-    });
-  };
+      payload: e.target.value,
+    })
+  }
   const onDeleteClick = () => {
-    cardHandlers.onDeleteClick({ id });
-  };
+    cardHandlers.onDeleteClick({ id })
+  }
 
   return (
-    <div
-      className={cx(styles.container, styles[`container__${cardColor}`])}
-    >
+    <div className={cx(styles.container, styles[`container__${cardColor}`])}>
       {/* header */}
       <div className={styles.header}>
         <input
@@ -70,7 +68,7 @@ export default function Card(props) {
 
         <LabelButtonList
           labels={labels}
-          makeOnUncheckClick={(cardId => labelId => () =>
+          makeOnUncheckClick={((cardId) => (labelId) => () =>
             cardHandlers.removeCardLabel({ cardId, labelId }))(id)}
         />
       </div>
@@ -100,7 +98,7 @@ export default function Card(props) {
         </Button>
       </div>
     </div>
-  );
+  )
 }
 
 //
@@ -119,13 +117,13 @@ export function LabelButtonList({ labels, makeOnUncheckClick }) {
           />
         ))}
     </div>
-  );
+  )
 }
 
 function LabelButton({ id, text, makeOnUncheckClick }) {
-  const [hover, setHover] = React.useState(false);
-  const onMouseEnter = () => setHover(true);
-  const onMouseLeave = () => setHover(false);
+  const [hover, setHover] = React.useState(false)
+  const onMouseEnter = () => setHover(true)
+  const onMouseLeave = () => setHover(false)
 
   return (
     <div
@@ -143,17 +141,17 @@ function LabelButton({ id, text, makeOnUncheckClick }) {
             top: "50%",
             width: "20px",
             height: "20px",
-            fill: "#3c4043"
+            fill: "#3c4043",
           }}
         />
       )}
     </div>
-  );
+  )
 }
 
 function makeLabels(labels, cardLabels) {
-  return labels.map(label => ({
+  return labels.map((label) => ({
     ...label,
-    checked: cardLabels.includes(label.id)
-  }));
+    checked: cardLabels.includes(label.id),
+  }))
 }

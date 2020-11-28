@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 export default function CardPin({ id, pinned, cardHandlers }) {
   return (
@@ -12,10 +12,10 @@ export default function CardPin({ id, pinned, cardHandlers }) {
           cardHandlers.onChange({
             id,
             field: "pinned",
-            payload: !pinned
+            payload: !pinned,
           })
         }
       />
     </label>
-  );
+  )
 }

@@ -1,6 +1,6 @@
-import React from "react";
-import cx from "classnames";
-import styles from "./Button.module.css";
+import React from "react"
+import cx from "classnames"
+import styles from "./Button.module.css"
 
 export default function Button({
   size = "l",
@@ -12,7 +12,7 @@ export default function Button({
   hoverBackground = false,
   ...props
 }) {
-  const [hover, setHover] = React.useState(false);
+  const [hover, setHover] = React.useState(false)
   return (
     <div
       role="button"
@@ -22,7 +22,7 @@ export default function Button({
         [styles.size_xs]: size === "xs",
 
         [styles.ButtonHover]: hover,
-        [styles.ButtonHoverBackground]: hover && hoverBackground
+        [styles.ButtonHoverBackground]: hover && hoverBackground,
       })}
       onClick={onClick}
       aria-label={ariaLabel}
@@ -33,5 +33,5 @@ export default function Button({
     >
       {children}
     </div>
-  );
+  )
 }

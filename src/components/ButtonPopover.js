@@ -1,19 +1,19 @@
-import React from "react";
-import Popover from "@material-ui/core/Popover";
-import Button from "components/Button";
+import React from "react"
+import Popover from "@material-ui/core/Popover"
+import Button from "components/Button"
 
 export default function ButtonPopover({ svg, children }) {
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = React.useState(null)
 
-  const handleClick = event => {
-    setAnchorEl(event.currentTarget);
-  };
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget)
+  }
 
   const handleClose = () => {
-    setAnchorEl(null);
-  };
+    setAnchorEl(null)
+  }
 
-  const open = Boolean(anchorEl);
+  const open = Boolean(anchorEl)
 
   return (
     <>
@@ -24,15 +24,15 @@ export default function ButtonPopover({ svg, children }) {
         onClose={handleClose}
         anchorOrigin={{
           vertical: "bottom",
-          horizontal: "center"
+          horizontal: "center",
         }}
         transformOrigin={{
           vertical: "top",
-          horizontal: "center"
+          horizontal: "center",
         }}
       >
         {children}
       </Popover>
     </>
-  );
+  )
 }

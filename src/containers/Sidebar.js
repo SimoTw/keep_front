@@ -1,15 +1,15 @@
-import React from "react";
-import cx from "classnames";
-import styles from "./Sidebar.module.css";
-import SidebarList from "components/SidebarList";
-import SidebarListButton from "components/SidebarListButton";
-import Modal from "@material-ui/core/Modal";
-import LabelForm from "containers/LabelForm";
-import { useLocation } from "react-router-dom";
+import React from "react"
+import cx from "classnames"
+import styles from "./Sidebar.module.css"
+import SidebarList from "components/SidebarList"
+import SidebarListButton from "components/SidebarListButton"
+import Modal from "@material-ui/core/Modal"
+import LabelForm from "containers/LabelForm"
+import { useLocation } from "react-router-dom"
 
 const Sidebar = ({ labels, labelHandlers, isSidebarOpen }) => {
-  const [open, setOpen] = React.useState(false);
-  const location = useLocation();
+  const [open, setOpen] = React.useState(false)
+  const location = useLocation()
 
   const Links = [
     { id: 0, text: "home", to: "/home" },
@@ -19,12 +19,12 @@ const Sidebar = ({ labels, labelHandlers, isSidebarOpen }) => {
       text: "edit labels",
       to: "/edit labels",
       onClick: () => {
-        setOpen(true);
-      }
+        setOpen(true)
+      },
     },
-    { id: 3, text: "trash", to: "/trash" }
-  ];
-  const renderList = list => {
+    { id: 3, text: "trash", to: "/trash" },
+  ]
+  const renderList = (list) => {
     return (
       <>
         {list.map(({ id, text, to, onClick }) => (
@@ -38,13 +38,13 @@ const Sidebar = ({ labels, labelHandlers, isSidebarOpen }) => {
           />
         ))}
       </>
-    );
-  };
+    )
+  }
   return (
     <div
       className={cx(styles.sidebar, {
         [styles.sidebar__close]: !isSidebarOpen,
-        [styles.sidebar__open]: isSidebarOpen
+        [styles.sidebar__open]: isSidebarOpen,
       })}
     >
       <SidebarList>{renderList(Links.slice(0, 2))}</SidebarList>
@@ -60,11 +60,11 @@ const Sidebar = ({ labels, labelHandlers, isSidebarOpen }) => {
             width: "100%",
             height: "100%",
             alignItems: "center",
-            justifyContent: "center"
+            justifyContent: "center",
           }}
-          onClick={e => {
+          onClick={(e) => {
             if (e.target === e.currentTarget) {
-              setOpen(false);
+              setOpen(false)
             }
           }}
         >
@@ -72,7 +72,7 @@ const Sidebar = ({ labels, labelHandlers, isSidebarOpen }) => {
         </div>
       </Modal>
     </div>
-  );
-};
+  )
+}
 
-export default Sidebar;
+export default Sidebar

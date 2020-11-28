@@ -1,38 +1,38 @@
-import React, { useContext } from "react";
-import styles from "./Todos.module.css";
-import TextArea from "components/TextArea";
-import Button from "components/Button";
-import CheckBox from "components/CheckBox";
-import { ReactComponent as Close } from "statics/svgs/close.svg";
-import { ReactComponent as Add } from "statics/svgs/add.svg";
-import { TodosByIdContext, TodoHandlerContext } from "App";
+import React, { useContext } from "react"
+import styles from "./Todos.module.css"
+import TextArea from "components/TextArea"
+import Button from "components/Button"
+import CheckBox from "components/CheckBox"
+import { ReactComponent as Close } from "statics/svgs/close.svg"
+import { ReactComponent as Add } from "statics/svgs/add.svg"
+import { TodosByIdContext, TodoHandlerContext } from "App"
 
 // import Input from "components/Input";
 
 export default function Todos({ todos: allIds, cardId }) {
   // const [todos, todoHandlers] = useTodo(id);
-  const byId = useContext(TodosByIdContext);
+  const byId = useContext(TodosByIdContext)
 
   return (
     <>
-      {allIds.map(id => {
-        const todo = byId[id];
-        return <Todo key={todo.id} {...todo} />;
+      {allIds.map((id) => {
+        const todo = byId[id]
+        return <Todo key={todo.id} {...todo} />
       })}
       <AddTodo />
     </>
-  );
+  )
 }
 
 function AddTodo() {
-  const [inp, setInp] = React.useState("");
-  const todoHandlers = useContext(TodoHandlerContext);
+  const [inp, setInp] = React.useState("")
+  const todoHandlers = useContext(TodoHandlerContext)
 
   const onClick = () => {
     // add todo
-    todoHandlers.add(inp);
-    setInp("");
-  };
+    todoHandlers.add(inp)
+    setInp("")
+  }
   return (
     <form className={styles.todoList} onSubmit={onClick}>
       <Button onClick={onClick}>
@@ -42,24 +42,24 @@ function AddTodo() {
         className={styles.todoTextArea}
         value={inp}
         placeholder="add Todo"
-        onChange={e => setInp(e.target.value)}
+        onChange={(e) => setInp(e.target.value)}
       />
     </form>
-  );
+  )
 }
 
 function Todo({ id, text, checked }) {
-  const todoHandlers = useContext(TodoHandlerContext);
+  const todoHandlers = useContext(TodoHandlerContext)
   const onToggle = () => {
-    todoHandlers.toggle(id);
-  };
-  const onTextChange = e => {
-    const { value } = e.target;
-    todoHandlers.onChange(id, value);
-  };
+    todoHandlers.toggle(id)
+  }
+  const onTextChange = (e) => {
+    const { value } = e.target
+    todoHandlers.onChange(id, value)
+  }
   const onRemoveClick = () => {
-    todoHandlers.remove(id);
-  };
+    todoHandlers.remove(id)
+  }
   return (
     <div className={styles.todoList}>
       <CheckBox
@@ -78,5 +78,5 @@ function Todo({ id, text, checked }) {
         <Close />
       </Button>
     </div>
-  );
+  )
 }
