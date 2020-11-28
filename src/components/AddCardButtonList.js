@@ -1,8 +1,8 @@
-import React from "react";
-import styles from "./AddCardButtonList.module.css";
-import Button from "components/Button";
-import { ReactComponent as TodoIcon } from "statics/svgs/check_box.svg";
-import { ReactComponent as Edit } from "statics/svgs/edit.svg";
+import React from "react"
+import styles from "./AddCardButtonList.module.css"
+import Button from "components/Button"
+import { ReactComponent as TodoIcon } from "statics/svgs/check_box.svg"
+import { ReactComponent as Edit } from "statics/svgs/edit.svg"
 
 export default function AddCardButtonList({ cardHandlers }) {
   return (
@@ -22,5 +22,5 @@ export default function AddCardButtonList({ cardHandlers }) {
         <TodoIcon />
       </Button>
     </div>
-  );
+  )
 }

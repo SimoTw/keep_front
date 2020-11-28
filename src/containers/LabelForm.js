@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { AddLabelList, LabelList } from "components/CardLabels";
-import styles from "./LabelForm.module.css";
-import { ReactComponent as LabelIcon } from "statics/svgs/label.svg";
-import { ReactComponent as Close } from "statics/svgs/close.svg";
+import React, { useState } from "react"
+import { AddLabelList, LabelList } from "components/CardLabels"
+import styles from "./LabelForm.module.css"
+import { ReactComponent as LabelIcon } from "statics/svgs/label.svg"
+import { ReactComponent as Close } from "statics/svgs/close.svg"
 
 export default function LabelForm({ labels, handlers }) {
-  const { add, remove, update } = handlers;
+  const { add, remove, update } = handlers
   return (
     <LabelList>
       <AddLabelList add={add} />
@@ -19,21 +19,21 @@ export default function LabelForm({ labels, handlers }) {
         />
       ))}
     </LabelList>
-  );
+  )
 }
 
 function Label({ id, initText, remove, update }) {
-  const [text, setText] = useState(initText);
+  const [text, setText] = useState(initText)
   return (
     <form
       className={styles.listItem}
-      onSubmit={e => {
-        e.preventDefault();
+      onSubmit={(e) => {
+        e.preventDefault()
         update({
           id: id,
           field: "text",
-          payload: text
-        });
+          payload: text,
+        })
       }}
     >
       <LabelIcon />
@@ -41,9 +41,9 @@ function Label({ id, initText, remove, update }) {
       <input
         className={styles.input}
         value={text}
-        onChange={e => setText(e.target.value)}
+        onChange={(e) => setText(e.target.value)}
       />
       <Close onClick={() => remove({ id })} />
     </form>
-  );
+  )
 }

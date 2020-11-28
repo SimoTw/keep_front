@@ -1,29 +1,29 @@
-import React from "react";
-import styles from "./App.module.css";
-import Header from "components/Header";
-import Sidebar from "containers/Sidebar";
-import useLabels from "reducers/useLabels";
-import useSearchedCards from "reducers/useSearchedCards";
-import useTodo from "reducers/useTodo";
+import React from "react"
+import styles from "./App.module.css"
+import Header from "components/Header"
+import Sidebar from "containers/Sidebar"
+import useLabels from "reducers/useLabels"
+import useSearchedCards from "reducers/useSearchedCards"
+import useTodo from "reducers/useTodo"
 
-import Home from "pages/Home";
+import Home from "pages/Home"
 
-export const TodosByIdContext = React.createContext([]);
-export const TodoHandlerContext = React.createContext();
+export const TodosByIdContext = React.createContext([])
+export const TodoHandlerContext = React.createContext()
 
 function App() {
-  const [isSidebarOpen, setisSidebarOpen] = React.useState(false);
-  const [labelsState, labelHandlers] = useLabels();
+  const [isSidebarOpen, setisSidebarOpen] = React.useState(false)
+  const [labelsState, labelHandlers] = useLabels()
   const [
     { cards, search },
-    { search: searchHandlers, cards: cardHandlers }
-  ] = useSearchedCards();
-  const [{ byId: todosById }, todoHandlers] = useTodo();
-  const labels = labelsState.allIds.map(id => labelsState.byId[id]);
+    { search: searchHandlers, cards: cardHandlers },
+  ] = useSearchedCards()
+  const [{ byId: todosById }, todoHandlers] = useTodo()
+  const labels = labelsState.allIds.map((id) => labelsState.byId[id])
 
   const toggleSidebar = () => {
-    setisSidebarOpen(!isSidebarOpen);
-  };
+    setisSidebarOpen(!isSidebarOpen)
+  }
   return (
     <div className={styles.App}>
       <Header
@@ -53,7 +53,7 @@ function App() {
         </TodosByIdContext.Provider>
       </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

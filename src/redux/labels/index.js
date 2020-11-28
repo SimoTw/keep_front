@@ -19,7 +19,7 @@ const initState = {
   allIds: [],
 };
 
-function labelReducer(state = initState, action) {
+export function labelReducer(state = initState, action) {
   switch (action.type) {
     // label actions
     case types.add: {

@@ -10,7 +10,7 @@ const colorNames = [
   "purple",
   "pink",
   "brown",
-  "gray"
-];
+  "gray",
+]
 
-export default colorNames;
+export default colorNames

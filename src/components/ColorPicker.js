@@ -1,24 +1,24 @@
-import React from "react";
-import colorNames from "types/colorNames";
-import styles from "./ColorPicker.module.css";
-import Circle from "components/Circle";
+import React from "react"
+import colorNames from "types/colorNames"
+import styles from "./ColorPicker.module.css"
+import Circle from "components/Circle"
 
 export default class ColorPicker extends React.Component {
   state = {
-    selectedColor: ""
-  };
-  makeOnClick = colorName => () => {
-    const { cardHandlers, cardId } = this.props;
-    this.setState({ selectedColor: colorName });
+    selectedColor: "",
+  }
+  makeOnClick = (colorName) => () => {
+    const { cardHandlers, cardId } = this.props
+    this.setState({ selectedColor: colorName })
     cardHandlers.onChange({
       id: cardId,
       field: "cardColor",
-      payload: colorName
-    });
-  };
+      payload: colorName,
+    })
+  }
   render() {
     // const { selectedColor } = this.state;
-    const { cardColor: selectedColor } = this.props;
+    const { cardColor: selectedColor } = this.props
     return (
       <div className={styles.container}>
         {colorNames.map((colorName, index) => (
@@ -31,6 +31,6 @@ export default class ColorPicker extends React.Component {
           </div>
         ))}
       </div>
-    );
+    )
   }
 }

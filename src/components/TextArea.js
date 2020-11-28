@@ -1,7 +1,7 @@
-import React from "react";
-import cx from "classnames";
-import AutoTextArea from "react-autosize-textarea";
-import styles from "./TextArea.module.css";
+import React from "react"
+import cx from "classnames"
+import AutoTextArea from "react-autosize-textarea"
+import styles from "./TextArea.module.css"
 
 export default function TextArea({
   className,
@@ -18,5 +18,5 @@ export default function TextArea({
       placeholder={placeholder}
       {...props}
     />
-  );
+  )
 }

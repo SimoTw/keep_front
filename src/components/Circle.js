@@ -1,20 +1,20 @@
-import React from "react";
-import styles from "./Circle.module.css";
-import cx from "classnames";
+import React from "react"
+import styles from "./Circle.module.css"
+import cx from "classnames"
 
 export default class Circle extends React.Component {
   state = {
-    hovered: false
-  };
+    hovered: false,
+  }
   handleMouseEnter = () => {
-    this.setState({ hoverd: true });
-  };
+    this.setState({ hoverd: true })
+  }
   handleMouseLeave = () => {
-    this.setState({ hoverd: false });
-  };
+    this.setState({ hoverd: false })
+  }
   render() {
-    const { hoverd } = this.state;
-    const { fill, selected, colorName, onClick } = this.props;
+    const { hoverd } = this.state
+    const { fill, selected, colorName, onClick } = this.props
     return (
       <div
         className={cx(styles.container, styles[`${colorName}`])}
@@ -23,7 +23,7 @@ export default class Circle extends React.Component {
         onMouseLeave={this.handleMouseLeave}
         style={{
           borderColor: `${fill}`,
-          border: `2px solid ${hoverd ? "rgba(0,0,0,0.87)" : "#e8eaed"}`
+          border: `2px solid ${hoverd ? "rgba(0,0,0,0.87)" : "#e8eaed"}`,
         }}
       >
         <svg
@@ -40,6 +40,6 @@ export default class Circle extends React.Component {
           />
         </svg>
       </div>
-    );
+    )
   }
 }

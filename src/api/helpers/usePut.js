@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useState } from "react"
 
 export default function usePut() {
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState([])
   // const [loading, setLoading] = useState(false);
-  let loading = false;
+  let loading = false
   async function putMethod(query, data) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    loading = true;
+    loading = true
     try {
       const response = await fetch(query, {
         method: "PUT",
@@ -14,17 +14,17 @@ export default function usePut() {
         mode: "cors",
         headers: {
           "Access-Control-Request-Method": "PUT",
-          "Content-Type": "application/json"
-        }
-      });
-      const json = await response.json();
-      setResults(json);
+          "Content-Type": "application/json",
+        },
+      })
+      const json = await response.json()
+      setResults(json)
     } catch (err) {
-      console.log({ err });
+      console.log({ err })
     } finally {
-      loading = false;
+      loading = false
     }
   }
 
-  return { putMethod, results, loading };
+  return { putMethod, results, loading }
 }

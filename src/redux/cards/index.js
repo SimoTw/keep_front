@@ -16,7 +16,6 @@ const makeCard = ({
   content = "",
   cardColor = "white",
   todos = [],
-  labels = [],
   pinned = false,
   contentType = "content",
 }) => ({
@@ -24,7 +23,6 @@ const makeCard = ({
   title,
   content,
   cardColor,
-  labels,
   todos,
   pinned,
   contentType,
